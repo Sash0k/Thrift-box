@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Thrift-box.iml" filepath="$PROJECT_DIR$/Thrift-box.iml" />
+      <module fileurl="file://$PROJECT_DIR$/thrift-box/thrift-box.iml" filepath="$PROJECT_DIR$/thrift-box/thrift-box.iml" />
+    </modules>
+  </component>
+</project>
+

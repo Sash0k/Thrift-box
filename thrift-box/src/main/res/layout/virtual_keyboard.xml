@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:visibility="visible">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/one"
+            android:text="@string/one" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/two"
+            android:text="@string/two" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/three"
+            android:text="@string/three" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/four"
+            android:text="@string/four" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/five"
+            android:text="@string/five" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/six"
+            android:text="@string/six" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/seven"
+            android:text="@string/seven" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/eight"
+            android:text="@string/eight" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/nine"
+            android:text="@string/nine" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/dot"
+            android:text="@string/dot" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/zero"
+            android:text="@string/zero" />
+
+        <Button
+            style="@style/VirtualKeyboardButton"
+            android:tag="@string/backspace"
+            android:text="@string/backspace" />
+    </LinearLayout>
+
+</LinearLayout>
