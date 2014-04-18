@@ -2,7 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.NoTitleBar">
-        <item name="android:background">@android:color/background_light</item>
+        <item name="android:windowBackground">@android:color/background_light</item>
+        <item name="android:colorBackground">@android:color/background_light</item>
     </style>
 
     <!-- Стиль кнопки на виртуальной клавиатуре -->

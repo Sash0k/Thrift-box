@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import ru.sash0k.thriftbox.database.DB;
 
 public class MainActivity extends Activity {
 
@@ -57,9 +60,11 @@ public class MainActivity extends Activity {
      */
     public void enterClick(View view) {
         if (valueTV != null) {
-            final String sum = valueTV.getText().toString();
-            valueTV.setText("");
-            // TODO: проверка валидности и запись в БД
+            final int value = Utils.parseCurrency(valueTV.getText().toString());
+            if (value > 0) {
+                DB.insertItem(this, value, 0);
+                valueTV.setText("");
+            } else Toast.makeText(this, getString(R.string.enter_value_invalid), Toast.LENGTH_SHORT).show();
         }
     }
     // ============================================================================
