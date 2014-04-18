@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".database.DBProvider"
+            android:authorities="ru.sash0k.thriftbox.database.DBProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>
