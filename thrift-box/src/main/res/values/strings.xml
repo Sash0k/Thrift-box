@@ -22,4 +22,9 @@
     <string name="enter_value_hint">сумма…</string>
     <string name="enter_value_invalid">Введено некорректное значение. Запись не может быть добавлена</string>
 
+    <string name="week">неделя:</string>
+    <string name="month">месяц:</string>
+
+    <string name="ruble">р</string>
+
 </resources>

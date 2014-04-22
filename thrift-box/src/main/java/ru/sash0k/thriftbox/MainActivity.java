@@ -70,7 +70,6 @@ public class MainActivity extends Activity {
                 // update widget
                 Intent intent = new Intent(this, Widget.class);
                 intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                // TODO: API 11
                 int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), Widget.class));
                 intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
                 sendBroadcast(intent);
