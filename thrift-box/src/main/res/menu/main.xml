@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ru.sash0k.thriftbox.MainActivity">
+    tools:context="ru.sash0k.thriftbox.InputActivity">
 
     <item
         android:id="@+id/action_settings"

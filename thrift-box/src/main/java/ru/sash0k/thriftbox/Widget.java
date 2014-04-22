@@ -50,7 +50,7 @@ public class Widget extends AppWidgetProvider {
         widgetView.setTextViewText(R.id.widget_month, context.getString(R.string.month) + " " + month + " " + context.getString(R.string.ruble));
 
         // Запуск по клику на виджет
-        final Intent intent = new Intent(context, MainActivity.class);
+        final Intent intent = new Intent(context, InputActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         final PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         widgetView.setOnClickPendingIntent(R.id.widget, pendingIntent);

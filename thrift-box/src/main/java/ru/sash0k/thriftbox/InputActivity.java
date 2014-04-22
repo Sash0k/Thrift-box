@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import ru.sash0k.thriftbox.database.DB;
 
-public class MainActivity extends Activity {
+public class InputActivity extends Activity {
 
     private TextView valueTV;
 
@@ -63,9 +63,11 @@ public class MainActivity extends Activity {
      */
     public void enterClick(View view) {
         if (valueTV != null) {
-            final int value = Utils.parseCurrency(valueTV.getText().toString());
+            final String textValue = valueTV.getText().toString();
+            final int value = Utils.parseCurrency(textValue);
             if (value > 0) {
                 DB.insertItem(this, value, 0);
+                Toast.makeText(this, getString(R.string.enter_value_done) + " " + textValue + " " + getString(R.string.ruble), Toast.LENGTH_SHORT).show();
                 valueTV.setText("");
                 // update widget
                 Intent intent = new Intent(this, Widget.class);
@@ -77,6 +79,14 @@ public class MainActivity extends Activity {
             } else
                 Toast.makeText(this, getString(R.string.enter_value_invalid), Toast.LENGTH_SHORT).show();
         }
+    }
+    // ============================================================================
+
+    /**
+     * Очистка введённого значения
+     */
+    public void clearClick(View view) {
+        ((TextView) view).setText("");
     }
     // ============================================================================
 }
