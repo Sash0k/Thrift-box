@@ -26,6 +26,10 @@
             android:textSize="32sp"
             android:textStyle="bold" />
 
+        <include
+            android:id="@+id/categories"
+            layout="@layout/categories" />
+
 
         <!-- Виртуальная клавиатура -->
         <include
