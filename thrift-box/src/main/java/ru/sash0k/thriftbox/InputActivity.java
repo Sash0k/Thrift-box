@@ -20,7 +20,7 @@ public class InputActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_input);
         valueTV = (TextView) findViewById(R.id.enter_value);
     }
 
@@ -67,7 +67,7 @@ public class InputActivity extends Activity {
             final int value = Utils.parseCurrency(textValue);
             if (value > 0) {
                 DB.insertItem(this, value, 0);
-                Toast.makeText(this, getString(R.string.enter_value_done) + " " + textValue + " " + getString(R.string.ruble), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.enter_value_done) + " " + textValue + " " + getString(R.string.ruble) + ".", Toast.LENGTH_SHORT).show();
                 valueTV.setText("");
                 // update widget
                 Intent intent = new Intent(this, Widget.class);
