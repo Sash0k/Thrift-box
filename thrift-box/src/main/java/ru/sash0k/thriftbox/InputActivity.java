@@ -19,11 +19,23 @@ public class InputActivity extends Activity {
     private Categories categories;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_input);
         valueTV = (TextView) findViewById(R.id.enter_value);
         categories = (Categories) findViewById(R.id.categories);
+
+        if (state != null) {
+          valueTV.setText(state.getString(DB.VALUE));
+          categories.setSelected(state.getInt(DB.CATEGORY));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putString(DB.VALUE, valueTV.getText().toString());
+        state.putInt(DB.CATEGORY, categories.getSelected());
     }
 
     @Override
