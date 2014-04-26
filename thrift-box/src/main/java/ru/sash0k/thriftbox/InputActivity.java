@@ -16,14 +16,15 @@ import ru.sash0k.thriftbox.database.DB;
 public class InputActivity extends Activity {
 
     private TextView valueTV;
+    private Categories categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
         valueTV = (TextView) findViewById(R.id.enter_value);
+        categories = (Categories) findViewById(R.id.categories);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,7 +67,7 @@ public class InputActivity extends Activity {
             final String textValue = valueTV.getText().toString();
             final int value = Utils.parseCurrency(textValue);
             if (value > 0) {
-                DB.insertItem(this, value, 0);
+                DB.insertItem(this, value, categories.getSelected());
                 Toast.makeText(this, getString(R.string.enter_value_done) + " " + textValue + " " + getString(R.string.ruble) + ".", Toast.LENGTH_SHORT).show();
                 valueTV.setText("");
                 // update widget

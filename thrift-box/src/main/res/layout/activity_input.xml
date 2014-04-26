@@ -26,10 +26,18 @@
             android:textSize="32sp"
             android:textStyle="bold" />
 
-        <include
-            android:id="@+id/categories"
-            layout="@layout/categories" />
+        <!-- Список категорий -->
+        <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
+            <ru.sash0k.thriftbox.Categories
+                android:id="@+id/categories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
 
         <!-- Виртуальная клавиатура -->
         <include

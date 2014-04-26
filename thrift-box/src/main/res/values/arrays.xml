@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Массив с названиями отображаемых категорий -->
+    <string-array name="categories">
+        <item>Без категории</item>
+        <item>Продукты</item>
+        <item>Бензин</item>
+        <item>Квартира</item>
+        <item>Кафе, столовые</item>
+        <item>Общественный транспорт</item>
+        <item>Отдых</item>
+        <item>Путешествия</item>
+        <item>Здоровье</item>
+    </string-array>
+
+</resources>
