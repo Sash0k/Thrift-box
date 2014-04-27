@@ -8,7 +8,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 19
         versionCode 1
-        versionName "0.1"
+        versionName "0.7"
     }
     buildTypes {
         release {
@@ -16,5 +16,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             zipAlign true
         }
+    }
+
+    dependencies {
+        compile 'com.android.support:support-v4:19.+'
     }
 }
