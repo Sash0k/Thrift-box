@@ -30,11 +30,7 @@ public class InputFragment extends Fragment {
     private Categories categories;
 
     public static InputFragment newInstance() {
-        InputFragment f = new InputFragment();
-        //Bundle arguments = new Bundle();
-        //arguments.putBoolean(TAG, widgetMode);
-        //f.setArguments(arguments);
-        return f;
+        return new InputFragment();
     }
     // ============================================================================
 

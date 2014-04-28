@@ -18,7 +18,7 @@ import ru.sash0k.thriftbox.database.DB;
  * Created by sash0k on 15.04.14.
  */
 public class Widget extends AppWidgetProvider {
-    public static String ACTION_AUTO_UPDATE_WIDGET = "ACTION_AUTO_UPDATE_WIDGET";
+    public static final String ACTION_AUTO_UPDATE_WIDGET = "ACTION_AUTO_UPDATE_WIDGET";
 
     @Override
     public void onEnabled(Context context) {
@@ -42,11 +42,6 @@ public class Widget extends AppWidgetProvider {
         for (int id : appWidgetIds) {
             updateWidget(context, appWidgetManager, id);
         }
-    }
-
-    @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        super.onDeleted(context, appWidgetIds);
     }
 
     @Override

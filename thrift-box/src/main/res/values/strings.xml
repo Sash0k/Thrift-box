@@ -3,8 +3,6 @@
 
     <string name="app_name">Пять копеек</string>
 
-    <string name="action_settings">Settings</string>
-
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="three">3</string>
@@ -22,13 +20,11 @@
     <string name="enter_value_hint">сумма…</string>
     <string name="enter_value_done">Внесено</string>
     <string name="enter_value_invalid">Введено некорректное значение. Запись не может быть добавлена</string>
+    <string name="list_empty">Список пуст</string>
 
     <string name="week">неделя:</string>
     <string name="month">месяц:</string>
 
     <string name="ruble">р</string>
-    <string name="title_section1">input</string>
-    <string name="title_section2">history</string>
-    <string name="list_empty">Список пуст</string>
 
 </resources>
