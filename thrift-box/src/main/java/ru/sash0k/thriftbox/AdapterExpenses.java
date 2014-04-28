@@ -28,10 +28,12 @@ public class AdapterExpenses extends CursorAdapter {
         View view = mInflater.inflate(R.layout.listitem_expense, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder();
 
+        viewHolder.date = (TextView) view.findViewById(R.id.expense_date);
         viewHolder.value = (TextView) view.findViewById(R.id.expense_value);
         //viewHolder.mac = (TextView) view.findViewById(R.id.checkpoint_mac);
         //viewHolder.openButton = view.findViewById(R.id.checkpoint_open);
 
+        viewHolder.date_col = cursor.getColumnIndexOrThrow(DB.DATE);
         viewHolder.value_col = cursor.getColumnIndexOrThrow(DB.VALUE);
         //viewHolder.mac_col = cursor.getColumnIndexOrThrow(DB.MAC);
         //viewHolder.auth_col = cursor.getColumnIndexOrThrow(DB.AUTH);
@@ -44,6 +46,7 @@ public class AdapterExpenses extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         //final String address = cursor.getString(viewHolder.mac_col);
+        viewHolder.date.setText(cursor.getString(viewHolder.date_col));
         viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + context.getString(R.string.ruble));
         //viewHolder.mac.setText(address);
         //viewHolder.openButton.setTag(R.id.address, address);
@@ -64,7 +67,9 @@ public class AdapterExpenses extends CursorAdapter {
 
     private static class ViewHolder {
         public TextView value;
-        int value_col;
+        public TextView date;
+
+        int value_col, date_col;
     }
     // ============================================================================
 }

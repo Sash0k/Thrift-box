@@ -36,7 +36,7 @@ public class ExpensesFragment extends BaseListFragment {
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), DB.getUri(DB.EXPENSES_TABLE), null, null, null, DB.TIMESTAMP + " DESC");
+        return new CursorLoader(getActivity(), DB.getUri(DB.EXPENSES_VIEW), null, null, null, DB.TIMESTAMP + " DESC");
     }
     // ============================================================================
 

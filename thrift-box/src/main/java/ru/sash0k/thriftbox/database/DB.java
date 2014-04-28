@@ -34,11 +34,24 @@ public class DB {
                     " [" + VALUE + "] INTEGER NOT NULL," +
                     " [" + CATEGORY + "] INTEGER NOT NULL DEFAULT(0)," +
                     " [" + TIMESTAMP + "] INTEGER NOT NULL DEFAULT(strftime('%s','now')));";
+
+            final String expenses_view = "CREATE VIEW [" + EXPENSES_VIEW + "] AS SELECT " +
+                    BaseColumns._ID + ", " + VALUE + ", " + CATEGORY + ", " + TIMESTAMP + ", " +
+                    "strftime('%d.%m.%Y', " + TIMESTAMP + ", 'unixepoch', 'localtime') AS " + DATE +
+                    " FROM " + EXPENSES_TABLE;
+
+            final String insert_trigger = "CREATE TRIGGER insert_expenses instead of insert on " + EXPENSES_VIEW +
+                    " BEGIN INSERT into " + EXPENSES_TABLE + "(" + VALUE + ", " + CATEGORY + ") values(new." + VALUE + ", new." + CATEGORY + "); END;";
+
             sqLiteDatabase.execSQL(expenses_table);
+            sqLiteDatabase.execSQL(expenses_view);
+            sqLiteDatabase.execSQL(insert_trigger);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
+            sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS insert_expenses");
+            sqLiteDatabase.execSQL("DROP VIEW IF EXISTS " + EXPENSES_VIEW);
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EXPENSES_TABLE);
             onCreate(sqLiteDatabase);
         }
@@ -47,12 +60,17 @@ public class DB {
 
     // рабочие таблицы
     public static final String EXPENSES_TABLE = "expenses";
+    public static final String EXPENSES_VIEW = "expenses_view";
 
     // поля таблицы EXPENSES_TABLE
     // BaseColumns._ID
     public static final String VALUE = "value";
     public static final String CATEGORY = "category";
     public static final String TIMESTAMP = "timestamp";
+
+    // поля таблицы EXPENSES_VIEW
+    public static final String DATE = "date";
+    public static final String TIME = "time";
     // ====================================================================
 
     /**
@@ -82,7 +100,7 @@ public class DB {
         ContentValues values = new ContentValues();
         values.put(VALUE, value);
         values.put(CATEGORY, category);
-        context.getContentResolver().insert(getUri(EXPENSES_TABLE), values);
+        context.getContentResolver().insert(getUri(EXPENSES_VIEW), values);
     }
     // ====================================================================
 

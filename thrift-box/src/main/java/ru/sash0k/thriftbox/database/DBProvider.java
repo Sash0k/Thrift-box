@@ -23,16 +23,18 @@ public class DBProvider extends ContentProvider {
     // Таблицы
     private static final UriMatcher uriMatcher;
     public static final int URI_EXPENSES = 0;
+    public static final int URI_EXPENSES_VIEW = 1;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(AUTHORITY, DB.EXPENSES_TABLE, URI_EXPENSES);
+        uriMatcher.addURI(AUTHORITY, DB.EXPENSES_VIEW, URI_EXPENSES_VIEW);
     }
 
     public static int getMode(String table) {
         int mode = URI_EXPENSES;
         if (table.equals(DB.EXPENSES_TABLE)) mode = DBProvider.URI_EXPENSES;
-        //else if (table.equals(DB.ACCESS_VIEW)) mode = DBProvider.URI_ACCESS_VIEW;
+        else if (table.equals(DB.EXPENSES_VIEW)) mode = DBProvider.URI_EXPENSES_VIEW;
         return mode;
     }
 
@@ -40,6 +42,8 @@ public class DBProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case URI_EXPENSES:
                 return DB.EXPENSES_TABLE;
+            case URI_EXPENSES_VIEW:
+                return DB.EXPENSES_VIEW;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
         }
