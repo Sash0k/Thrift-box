@@ -29,5 +29,6 @@
     <string name="ruble">р</string>
     <string name="title_section1">input</string>
     <string name="title_section2">history</string>
+    <string name="list_empty">Список пуст</string>
 
 </resources>

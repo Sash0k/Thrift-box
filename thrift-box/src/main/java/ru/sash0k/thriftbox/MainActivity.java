@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
 
 public class MainActivity extends FragmentActivity {
@@ -79,7 +80,7 @@ public class MainActivity extends FragmentActivity {
                 case 0:
                     return InputFragment.newInstance();
                 default:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return ExpensesFragment.newInstance();
             }
         }
 
