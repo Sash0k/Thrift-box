@@ -9,7 +9,7 @@ import java.util.Calendar;
  */
 public class Utils {
     public static final String TAG = "THRIFTBOX";
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static void log(String msg) {
         if (DEBUG) Log.w(TAG, msg);

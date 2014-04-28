@@ -70,7 +70,6 @@ public class DB {
 
     // поля таблицы EXPENSES_VIEW
     public static final String DATE = "date";
-    public static final String TIME = "time";
     // ====================================================================
 
     /**
