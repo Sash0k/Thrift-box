@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import ru.sash0k.thriftbox.fragments.InputFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -30,10 +31,37 @@ public class MainActivity extends FragmentActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager)findViewById(R.id.pager);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         setContentView(mViewPager);
     }
+    // ============================================================================
+
+    /**
+     * Обработка ввода виртуальной клавиатуры
+     */
+    public void virtualKeyboardClick(View view) {
+        TextView valueTV = (TextView)mViewPager.findViewById(R.id.enter_value);
+        final String digit = view.getTag().toString();
+        if (valueTV != null) {
+            String query = valueTV.getText().toString();
+            if (getString(R.string.backspace).equals(digit)) {
+                final int len = query.length() - 1;
+                query = query.substring(0, (len < 0) ? 0 : len);
+            } else query += digit;
+            valueTV.setText(query);
+        }
+    }
+    // ============================================================================
+
+    /**
+     * Очистка введённого значения
+     */
+    public void clearClick(View view) {
+        ((TextView) view).setText("");
+    }
+    // ============================================================================
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -47,9 +75,12 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position) {
+                case 0:
+                    return InputFragment.newInstance();
+                default:
+                    return PlaceholderFragment.newInstance(position + 1);
+            }
         }
 
         @Override
