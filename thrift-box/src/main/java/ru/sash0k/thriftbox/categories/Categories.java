@@ -1,4 +1,4 @@
-package ru.sash0k.thriftbox;
+package ru.sash0k.thriftbox.categories;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import ru.sash0k.thriftbox.R;
+import ru.sash0k.thriftbox.Utils;
 
 
 /**

@@ -13,10 +13,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ru.sash0k.thriftbox.Categories;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
 import ru.sash0k.thriftbox.Widget;
+import ru.sash0k.thriftbox.categories.Categories;
 import ru.sash0k.thriftbox.database.DB;
 
 /**
