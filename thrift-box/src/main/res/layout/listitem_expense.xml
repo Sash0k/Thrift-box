@@ -6,18 +6,23 @@
 
     <TextView
         android:id="@+id/expense_date"
+        style="@style/app_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/expense_category"
+        style="@style/app_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"/>
+        android:layout_toRightOf="@id/expense_date" />
 
     <TextView
         android:id="@+id/expense_value"
+        style="@style/app_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"/>
+        android:textStyle="bold" />
 
 </RelativeLayout>

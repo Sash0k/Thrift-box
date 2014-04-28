@@ -15,11 +15,14 @@ import ru.sash0k.thriftbox.database.DB;
  * Created by sash0k on 28.04.14.
  */
 public class AdapterExpenses extends CursorAdapter {
+    private static final String divider = " — ";
     private final LayoutInflater mInflater;
+    private final String[] categories;
 
     public AdapterExpenses(Context context) {
         super(context, null, 0);
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.categories = context.getResources().getStringArray(R.array.categories);
     }
     // ============================================================================
 
@@ -27,16 +30,13 @@ public class AdapterExpenses extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         View view = mInflater.inflate(R.layout.listitem_expense, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder();
-
         viewHolder.date = (TextView) view.findViewById(R.id.expense_date);
+        viewHolder.category = (TextView) view.findViewById(R.id.expense_category);
         viewHolder.value = (TextView) view.findViewById(R.id.expense_value);
-        //viewHolder.mac = (TextView) view.findViewById(R.id.checkpoint_mac);
-        //viewHolder.openButton = view.findViewById(R.id.checkpoint_open);
 
         viewHolder.date_col = cursor.getColumnIndexOrThrow(DB.DATE);
+        viewHolder.category_col = cursor.getColumnIndexOrThrow(DB.CATEGORY);
         viewHolder.value_col = cursor.getColumnIndexOrThrow(DB.VALUE);
-        //viewHolder.mac_col = cursor.getColumnIndexOrThrow(DB.MAC);
-        //viewHolder.auth_col = cursor.getColumnIndexOrThrow(DB.AUTH);
         view.setTag(viewHolder);
         return view;
     }
@@ -45,11 +45,9 @@ public class AdapterExpenses extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        //final String address = cursor.getString(viewHolder.mac_col);
         viewHolder.date.setText(cursor.getString(viewHolder.date_col));
+        viewHolder.category.setText(divider + categories[cursor.getInt(viewHolder.category_col)]);
         viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + context.getString(R.string.ruble));
-        //viewHolder.mac.setText(address);
-        //viewHolder.openButton.setTag(R.id.address, address);
     }
     // ============================================================================
 
@@ -66,10 +64,10 @@ public class AdapterExpenses extends CursorAdapter {
     // ============================================================================
 
     private static class ViewHolder {
-        public TextView value;
-        public TextView date;
-
-        int value_col, date_col;
+        private TextView date;
+        private TextView category;
+        private TextView value;
+        private int date_col, category_col, value_col;
     }
     // ============================================================================
 }

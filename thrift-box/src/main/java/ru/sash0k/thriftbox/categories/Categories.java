@@ -1,7 +1,9 @@
 package ru.sash0k.thriftbox.categories;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,6 +28,9 @@ public class Categories extends LinearLayout {
     private static final int[] mImages = {R.drawable.star,
             R.drawable.trolley, R.drawable.filling, R.drawable.housing, R.drawable.restaurants,
             R.drawable.transport, R.drawable.culture, R.drawable.air, R.drawable.medicine};
+
+    private final String[] categories;
+    private final Context mContext;
 
     // Параметры изображения
     final static int pic_width = 48;
@@ -54,9 +59,6 @@ public class Categories extends LinearLayout {
         }
     }
 
-    private final Context mContext;
-    private final String[] categories;
-
     /**
      * Конструкторы класса
      *
@@ -77,6 +79,7 @@ public class Categories extends LinearLayout {
         build();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public Categories(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
