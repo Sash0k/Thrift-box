@@ -44,7 +44,7 @@ public class AdapterExpenses extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         //final String address = cursor.getString(viewHolder.mac_col);
-        viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)));
+        viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + context.getString(R.string.ruble));
         //viewHolder.mac.setText(address);
         //viewHolder.openButton.setTag(R.id.address, address);
     }
