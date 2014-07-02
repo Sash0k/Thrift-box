@@ -56,8 +56,13 @@ public class Utils {
         result[0] = c.getTimeInMillis() / MILLIS;
         c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
         result[1] = c.getTimeInMillis() / MILLIS;
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        result[2] = c.getTimeInMillis() / MILLIS;
+
+        Calendar mc = Calendar.getInstance();
+        mc.set(Calendar.DAY_OF_MONTH, 1);
+        mc.set(Calendar.HOUR_OF_DAY, 0);
+        mc.set(Calendar.MINUTE, 0);
+        mc.set(Calendar.SECOND, 0);
+        result[2] = mc.getTimeInMillis() / MILLIS;
         return result;
     }
     // ============================================================================
