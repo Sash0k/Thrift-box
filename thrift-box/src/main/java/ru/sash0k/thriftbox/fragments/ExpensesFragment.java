@@ -6,7 +6,6 @@ import android.provider.BaseColumns;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
 import android.util.SparseIntArray;
 
 import ru.sash0k.thriftbox.AdapterExpenses;
@@ -42,6 +41,7 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
 
         mAdapter = new AdapterExpenses(this, getActivity());
         setListAdapter(mAdapter);
+        setRetainInstance(true);
     }
     // ============================================================================
 
