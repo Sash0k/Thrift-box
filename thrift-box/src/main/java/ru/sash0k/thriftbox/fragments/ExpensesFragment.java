@@ -2,6 +2,7 @@ package ru.sash0k.thriftbox.fragments;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -36,7 +37,9 @@ public class ExpensesFragment extends BaseListFragment {
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), DB.getUri(DB.EXPENSES_VIEW), null, null, null, DB.TIMESTAMP + " DESC");
+        final String[] columns = {BaseColumns._ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
+        final String selection = DB.DATE + " = " + DB.DATE + " GROUP BY (" + DB.DATE + ")"; // hack: GROUP BY
+        return new CursorLoader(getActivity(), DB.getUri(DB.EXPENSES_VIEW), columns, selection, null, DB.TIMESTAMP + " DESC");
     }
     // ============================================================================
 

@@ -31,11 +31,11 @@ public class AdapterExpenses extends CursorAdapter {
         View view = mInflater.inflate(R.layout.listitem_expense, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.date = (TextView) view.findViewById(R.id.expense_date);
-        viewHolder.category = (TextView) view.findViewById(R.id.expense_category);
+        //viewHolder.category = (TextView) view.findViewById(R.id.expense_category);
         viewHolder.value = (TextView) view.findViewById(R.id.expense_value);
 
         viewHolder.date_col = cursor.getColumnIndexOrThrow(DB.DATE);
-        viewHolder.category_col = cursor.getColumnIndexOrThrow(DB.CATEGORY);
+        //viewHolder.category_col = cursor.getColumnIndexOrThrow(DB.CATEGORY);
         viewHolder.value_col = cursor.getColumnIndexOrThrow(DB.VALUE);
         view.setTag(viewHolder);
         return view;
@@ -46,7 +46,7 @@ public class AdapterExpenses extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.date.setText(cursor.getString(viewHolder.date_col));
-        viewHolder.category.setText(divider + categories[cursor.getInt(viewHolder.category_col)]);
+        //viewHolder.category.setText(divider + categories[cursor.getInt(viewHolder.category_col)]);
         viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + context.getString(R.string.ruble));
     }
     // ============================================================================
@@ -65,9 +65,9 @@ public class AdapterExpenses extends CursorAdapter {
 
     private static class ViewHolder {
         private TextView date;
-        private TextView category;
+        // private TextView category;
         private TextView value;
-        private int date_col, category_col, value_col;
+        private int date_col, value_col;
     }
     // ============================================================================
 }
