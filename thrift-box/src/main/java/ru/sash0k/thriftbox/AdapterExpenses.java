@@ -80,7 +80,7 @@ public class AdapterExpenses extends CursorTreeAdapter {
     @Override
     protected void bindChildView(View view, Context context, Cursor cursor, boolean b) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.category.setText('\t' + categories[cursor.getInt(viewHolder.category_col)]);
+        viewHolder.category.setText(categories[cursor.getInt(viewHolder.category_col)]);
         viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + context.getString(R.string.ruble));
     }
     // ============================================================================
@@ -90,7 +90,6 @@ public class AdapterExpenses extends CursorTreeAdapter {
         final int groupPos = cursor.getPosition();
         final int groupId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
         final String date  = cursor.getString(cursor.getColumnIndex(DB.DATE));
-        Utils.log("pos = " + groupPos);
         Utils.log("date = " + date);
 
         mGroupMap.put(groupId, groupPos);
