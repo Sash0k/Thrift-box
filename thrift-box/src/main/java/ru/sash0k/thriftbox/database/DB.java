@@ -91,7 +91,6 @@ public class DB {
     }
     // ====================================================================
 
-
     /**
      * Добавить запись в таблицу
      */
@@ -100,6 +99,16 @@ public class DB {
         values.put(VALUE, value);
         values.put(CATEGORY, category);
         context.getContentResolver().insert(getUri(EXPENSES_VIEW), values);
+    }
+    // ====================================================================
+
+    /**
+     * Удалить запись из таблицы
+     */
+    public static void deleteItem(Context context, int id) {
+        // чтобы не писать триггер удаления EXPENSES_VIEW
+        context.getContentResolver().delete(getUri(EXPENSES_TABLE), BaseColumns._ID + "=?", new String[]{Integer.toString(id)});
+        context.getContentResolver().notifyChange(getUri(EXPENSES_VIEW), null);
     }
     // ====================================================================
 

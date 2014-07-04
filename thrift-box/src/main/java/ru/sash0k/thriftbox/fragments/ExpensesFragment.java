@@ -8,8 +8,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.SparseIntArray;
+import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
 import ru.sash0k.thriftbox.AdapterExpenses;
 import ru.sash0k.thriftbox.R;
@@ -20,7 +20,7 @@ import ru.sash0k.thriftbox.database.DB;
  * Список расходов
  * Created by sash0k on 28.04.14.
  */
-public class ExpensesFragment extends ExpandableListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ExpensesFragment extends ExpandableListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "ExpensesFragment";
     private static final int LOADER_ID = -1;
 
@@ -44,6 +44,39 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
         mAdapter = new AdapterExpenses(this, getActivity());
         setListAdapter(mAdapter);
         setRetainInstance(true);
+    }
+    // ============================================================================
+
+    @Override
+    public void onActivityCreated(Bundle savedState) {
+        super.onActivityCreated(savedState);
+        setEmptyText(getString(R.string.list_empty));
+        setHasOptionsMenu(false);
+        setListShown(false);
+
+        // styling listView
+        final ExpandableListView list = getListView();
+        final Drawable divider = getResources().getDrawable(R.drawable.list_divider);
+        list.setSelector(R.drawable.list_selector_holo_light);
+        list.setDivider(divider);
+        list.setChildDivider(divider);
+        list.setDividerHeight(getPx(1));
+        list.setOnChildClickListener(this);
+
+        LoaderManager lm = getLoaderManager();
+        if (lm != null) lm.initLoader(LOADER_ID, null, this);
+    }
+    // ============================================================================
+
+    @Override
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        super.onChildClick(parent, v, groupPosition, childPosition, id);
+        Cursor cursor = ((AdapterExpenses) getListAdapter()).getChild(groupPosition, childPosition);
+        final int row_id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
+        cursor.close();
+        Utils.log("id = " + row_id);
+        DB.deleteItem(getActivity(), row_id);
+        return true;
     }
     // ============================================================================
 
@@ -94,26 +127,6 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
     }
     // ============================================================================
 
-
-    @Override
-    public void onActivityCreated(Bundle savedState) {
-        super.onActivityCreated(savedState);
-        setEmptyText(getString(R.string.list_empty));
-        setHasOptionsMenu(false);
-        setListShown(false);
-
-        // styling listView
-        final ExpandableListView list = getListView();
-        final Drawable divider = getResources().getDrawable(R.drawable.list_divider);
-        list.setSelector(R.drawable.list_selector_holo_light);
-        list.setDivider(divider);
-        list.setChildDivider(divider);
-        list.setDividerHeight(getPx(1));
-
-        LoaderManager lm = getLoaderManager();
-        if (lm != null) lm.initLoader(LOADER_ID, null, this);
-    }
-    // ============================================================================
 
     private int getPx(int value) {
         final float scale = getResources().getDisplayMetrics().density;
