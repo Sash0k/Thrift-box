@@ -7,7 +7,6 @@ import android.provider.BaseColumns;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -27,7 +26,6 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
     // Адаптер списка
     protected AdapterExpenses mAdapter;
 
-
     public static ExpensesFragment newInstance() {
         ExpensesFragment f = new ExpensesFragment();
         //Bundle arguments = new Bundle();
@@ -40,10 +38,8 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAdapter = new AdapterExpenses(this, getActivity());
+        mAdapter = new AdapterExpenses(getActivity());
         setListAdapter(mAdapter);
-        setRetainInstance(true);
     }
     // ============================================================================
 
@@ -87,42 +83,20 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        if (id == LOADER_ID) {
             final String[] columns = {BaseColumns._ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
             final String selection = DB.DATE + " = " + DB.DATE + " GROUP BY (" + DB.DATE + ")"; // hack: GROUP BY
             return new CursorLoader(getActivity(), DB.getUri(DB.EXPENSES_VIEW), columns, selection, null, DB.TIMESTAMP + " DESC");
-        } else {
-            final String date = args.getString(DB.DATE);
-            return new CursorLoader(getActivity(), DB.getUri(DB.EXPENSES_VIEW), null, DB.DATE + "=?", new String[]{date}, DB.TIMESTAMP + " DESC");
-        }
     }
     // ============================================================================
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        final int id = loader.getId();
-
         if (isResumed()) {
             setListShown(true);
         } else {
             setListShownNoAnimation(true);
         }
-
-        if (id != LOADER_ID) {
-            // child cursor
-            if (!data.isClosed()) {
-                Utils.log("data.getCount() " + data.getCount());
-                SparseIntArray groupMap = mAdapter.getGroupMap();
-                try {
-                    int groupPos = groupMap.get(id);
-                    Utils.log("onLoadFinished() for groupPos " + groupPos);
-                    mAdapter.setChildrenCursor(groupPos, data);
-                } catch (NullPointerException e) {
-                    Utils.log("Adapter expired, try again on the next query: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-        } else mAdapter.changeCursor(data);
+        mAdapter.changeCursor(data);
     }
     // ============================================================================
 
@@ -131,7 +105,6 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
         mAdapter.changeCursor(null);
     }
     // ============================================================================
-
 
     private int getPx(int value) {
         final float scale = getResources().getDisplayMetrics().density;

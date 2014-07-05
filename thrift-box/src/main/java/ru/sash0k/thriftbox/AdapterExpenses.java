@@ -1,13 +1,8 @@
 package ru.sash0k.thriftbox;
 
+import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,26 +16,19 @@ import ru.sash0k.thriftbox.database.DB;
  * Created by sash0k on 28.04.14.
  */
 public class AdapterExpenses extends CursorTreeAdapter {
+    private static final int TOKEN_CHILD = 1;
+    private final QueryHandler mQueryHandler;
+
     private final LayoutInflater mInflater;
     private final String[] categories;
 
-    private final Fragment mFragment;
-    protected final SparseIntArray mGroupMap;
-
-    public AdapterExpenses(Fragment fragment, Context context) {
+    public AdapterExpenses(Context context) {
         super(null, context, true);
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.categories = context.getResources().getStringArray(R.array.categories);
-
-        this.mFragment = fragment;
-        this.mGroupMap = new SparseIntArray();
+        this.mQueryHandler = new QueryHandler(context, this);
     }
     // ============================================================================
-
-    //Accessor method
-    public SparseIntArray getGroupMap() {
-        return mGroupMap;
-    }
 
     @Override
     protected View newGroupView(Context context, Cursor cursor, boolean b, ViewGroup viewGroup) {
@@ -86,23 +74,37 @@ public class AdapterExpenses extends CursorTreeAdapter {
     // ============================================================================
 
     @Override
-    protected Cursor getChildrenCursor(Cursor cursor) {
-        final int groupPos = cursor.getPosition();
-        final int groupId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
-        final String date  = cursor.getString(cursor.getColumnIndex(DB.DATE));
-        Utils.log("date = " + date);
-
-        mGroupMap.put(groupId, groupPos);
-        Bundle args = new Bundle();
-        args.putString(DB.DATE, date);
-        LoaderManager lm = mFragment.getLoaderManager();
-        Loader loader = lm.getLoader(groupId);
-        if (loader != null && !loader.isReset()) {
-            lm.restartLoader(groupId, args, (LoaderManager.LoaderCallbacks<Object>) mFragment);
-        } else {
-            lm.initLoader(groupId, args, (LoaderManager.LoaderCallbacks<Object>) mFragment);
-        }
+    protected Cursor getChildrenCursor(Cursor groupCursor) {
+        final String date = groupCursor.getString(groupCursor.getColumnIndex(DB.DATE));
+        mQueryHandler.startQuery(TOKEN_CHILD, groupCursor.getPosition(),
+                DB.getUri(DB.EXPENSES_VIEW), null, DB.DATE + "=?", new String[]{date}, DB.TIMESTAMP + " DESC");
         return null;
+    }
+    // ============================================================================
+
+    private static final class QueryHandler extends AsyncQueryHandler {
+        private CursorTreeAdapter mAdapter;
+
+        public QueryHandler(Context context, CursorTreeAdapter adapter) {
+            super(context.getContentResolver());
+            this.mAdapter = adapter;
+        }
+
+        @Override
+        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+            if (token == TOKEN_CHILD) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    Utils.log("setChildrenCursor count:" + cursor.getCount());
+                    int groupPosition = (Integer) cookie;
+                    mAdapter.setChildrenCursor(groupPosition, cursor);
+                }
+            } else {
+                if (cursor != null && cursor.moveToFirst()) {
+                    Utils.log("setGroupCursor count:" + cursor.getCount());
+                    mAdapter.setGroupCursor(cursor);
+                }
+            }
+        }
     }
     // ============================================================================
 
