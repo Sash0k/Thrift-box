@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sash0k
@@ -18,42 +20,13 @@ public class DB {
      * Created with IntelliJ IDEA.
      * User: sash0k
      */
-    public static class DbOpenHelper extends SQLiteOpenHelper {
+    public static class DbOpenHelper extends SQLiteAssetHelper {
 
         private static final int DB_VERSION = 1;
         private static final String DB_NAME = "thriftbox.db";
 
         public DbOpenHelper(Context context) {
             super(context, DB_NAME, null, DB_VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase sqLiteDatabase) {
-            final String expenses_table = "CREATE TABLE [" + EXPENSES_TABLE + "]" +
-                    " ([" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    " [" + VALUE + "] INTEGER NOT NULL," +
-                    " [" + CATEGORY + "] INTEGER NOT NULL DEFAULT(0)," +
-                    " [" + TIMESTAMP + "] INTEGER NOT NULL DEFAULT(strftime('%s','now')));";
-
-            final String expenses_view = "CREATE VIEW [" + EXPENSES_VIEW + "] AS SELECT " +
-                    BaseColumns._ID + ", " + VALUE + ", " + CATEGORY + ", " + TIMESTAMP + ", " +
-                    "strftime('%d.%m.%Y', " + TIMESTAMP + ", 'unixepoch', 'localtime') AS " + DATE +
-                    " FROM " + EXPENSES_TABLE;
-
-            final String insert_trigger = "CREATE TRIGGER insert_expenses instead of insert on " + EXPENSES_VIEW +
-                    " BEGIN INSERT into " + EXPENSES_TABLE + "(" + VALUE + ", " + CATEGORY + ") values(new." + VALUE + ", new." + CATEGORY + "); END;";
-
-            sqLiteDatabase.execSQL(expenses_table);
-            sqLiteDatabase.execSQL(expenses_view);
-            sqLiteDatabase.execSQL(insert_trigger);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
-            sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS insert_expenses");
-            sqLiteDatabase.execSQL("DROP VIEW IF EXISTS " + EXPENSES_VIEW);
-            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EXPENSES_TABLE);
-            onCreate(sqLiteDatabase);
         }
     }
     // ====================================================================
