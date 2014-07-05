@@ -17,8 +17,9 @@ android {
             zipAlign true
         }
     }
-
-    dependencies {
-        compile 'com.android.support:support-v4:19.+'
-    }
 }
+
+dependencies {
+    compile 'com.android.support:support-v4:19.+'
+}
+
