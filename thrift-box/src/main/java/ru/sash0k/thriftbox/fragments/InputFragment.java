@@ -61,12 +61,7 @@ public class InputFragment extends Fragment {
                         DB.insertItem(context, value, categories.getSelected());
                         Toast.makeText(context, getString(R.string.enter_value_done) + " " + textValue + getString(R.string.ruble), Toast.LENGTH_SHORT).show();
                         valueTV.setText("");
-                        // update widget
-                        Intent intent = new Intent(context, Widget.class);
-                        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                        int[] ids = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, Widget.class));
-                        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-                        context.sendBroadcast(intent);
+                        Utils.updateWidgets(context);
                     } else
                         Toast.makeText(context, getString(R.string.enter_value_invalid), Toast.LENGTH_SHORT).show();
                 }

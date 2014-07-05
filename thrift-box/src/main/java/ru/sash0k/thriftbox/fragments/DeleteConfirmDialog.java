@@ -54,6 +54,7 @@ public class DeleteConfirmDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DB.deleteItem(context, id);
+                        Utils.updateWidgets(context);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null);
