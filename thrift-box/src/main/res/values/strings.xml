@@ -21,6 +21,8 @@
     <string name="enter_value_done">Внесено</string>
     <string name="enter_value_invalid">Введено некорректное значение. Запись не может быть добавлена</string>
     <string name="list_empty">Список пуст</string>
+    <string name="delete_label">Удалить</string>
+    <string name="delete_msg">Вы действительно хотите удалить запись:</string>
 
     <string name="week">неделя:</string>
     <string name="month">месяц:</string>

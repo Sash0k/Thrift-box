@@ -73,9 +73,14 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
         super.onChildClick(parent, v, groupPosition, childPosition, id);
         Cursor cursor = ((AdapterExpenses) getListAdapter()).getChild(groupPosition, childPosition);
         final int row_id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
-        cursor.close();
-        Utils.log("id = " + row_id);
-        DB.deleteItem(getActivity(), row_id);
+        final String date = cursor.getString(cursor.getColumnIndex(DB.DATE));
+        final int category = cursor.getInt(cursor.getColumnIndex(DB.CATEGORY));
+        final long value = cursor.getLong(cursor.getColumnIndex(DB.VALUE));
+        //cursor.close(); TODO?
+        Utils.log("onChildClick id = " + row_id);
+
+        DeleteConfirmDialog dialog = DeleteConfirmDialog.newInstance(row_id, date, category, value);
+        dialog.show(getFragmentManager(), DeleteConfirmDialog.TAG);
         return true;
     }
     // ============================================================================
