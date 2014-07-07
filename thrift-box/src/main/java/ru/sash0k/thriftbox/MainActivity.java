@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.viewpagerindicator.LinePageIndicator;
+
 import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
 
@@ -23,14 +25,12 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        setContentView(mViewPager);
+        LinePageIndicator indicator = (LinePageIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mViewPager);
     }
     // ============================================================================
 
