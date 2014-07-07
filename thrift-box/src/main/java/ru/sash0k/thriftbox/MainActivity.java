@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.viewpagerindicator.LinePageIndicator;
+
 import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
 
@@ -30,7 +32,8 @@ public class MainActivity extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        setContentView(mViewPager);
+        LinePageIndicator indicator = (LinePageIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mViewPager);
     }
     // ============================================================================
 
