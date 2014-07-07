@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorTreeAdapter;
 import android.widget.TextView;
+import android.widget_fixed.CursorTreeAdapter;
 
 import ru.sash0k.thriftbox.database.DB;
 

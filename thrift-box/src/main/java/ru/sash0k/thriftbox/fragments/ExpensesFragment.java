@@ -9,6 +9,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget_fixed.CursorTreeAdapter;
 
 import ru.sash0k.thriftbox.AdapterExpenses;
 import ru.sash0k.thriftbox.R;
@@ -24,7 +25,7 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
     private static final int LOADER_ID = -1;
 
     // Адаптер списка
-    protected AdapterExpenses mAdapter;
+    protected CursorTreeAdapter mAdapter;
 
     public static ExpensesFragment newInstance() {
         ExpensesFragment f = new ExpensesFragment();
