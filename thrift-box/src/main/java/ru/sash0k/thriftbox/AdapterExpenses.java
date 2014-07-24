@@ -32,7 +32,7 @@ public class AdapterExpenses extends CursorTreeAdapter {
 
     @Override
     protected View newGroupView(Context context, Cursor cursor, boolean b, ViewGroup viewGroup) {
-        View view = mInflater.inflate(R.layout.listitem_expense, viewGroup, false);
+        View view = mInflater.inflate(R.layout.group_expense, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.date = (TextView) view.findViewById(R.id.expense_date);
         viewHolder.value = (TextView) view.findViewById(R.id.expense_value);
@@ -53,7 +53,7 @@ public class AdapterExpenses extends CursorTreeAdapter {
 
     @Override
     protected View newChildView(Context context, Cursor cursor, boolean b, ViewGroup viewGroup) {
-        View view = mInflater.inflate(R.layout.listitem_expense, viewGroup, false);
+        View view = mInflater.inflate(R.layout.item_expense, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.category = (TextView) view.findViewById(R.id.expense_category);
         viewHolder.value = (TextView) view.findViewById(R.id.expense_value);
