@@ -10,14 +10,11 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.viewpagerindicator.LinePageIndicator
+    <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip"
-        app:lineWidth="25dp"
-        app:strokeWidth="4dp"
-        app:selectedColor="@color/red"
-        app:unselectedColor="@color/gray" />
+        android:padding="10dip"
+        app:fillColor="@color/red"/>
 
 </LinearLayout>
