@@ -28,7 +28,7 @@ public class Categories extends LinearLayout {
     private static final int[] mImages = {R.drawable.star,
             R.drawable.trolley, R.drawable.filling, R.drawable.transport, R.drawable.restaurants,
             R.drawable.culture, R.drawable.shopping, R.drawable.mobile,
-            R.drawable.housing, R.drawable.air, R.drawable.medicine};
+            R.drawable.housing, R.drawable.family, R.drawable.medicine, R.drawable.air};
 
     private final String[] categories;
     private final Context mContext;
