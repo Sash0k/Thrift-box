@@ -1,12 +1,10 @@
 package ru.sash0k.thriftbox.fragments;
 
 import android.app.Activity;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,7 +13,6 @@ import android.widget.Toast;
 
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
-import ru.sash0k.thriftbox.Widget;
 import ru.sash0k.thriftbox.categories.Categories;
 import ru.sash0k.thriftbox.database.DB;
 
@@ -45,6 +42,20 @@ public class InputFragment extends Fragment {
         super.onActivityCreated(state);
         final Activity context = getActivity();
         valueTV = (TextView) context.findViewById(R.id.enter_value);
+        valueTV.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_RIGHT = 2;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= (valueTV.getRight() - valueTV.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        valueTV.setText("");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         categories = (Categories) context.findViewById(R.id.categories);
         if (state != null) {
             valueTV.setText(state.getString(DB.VALUE));

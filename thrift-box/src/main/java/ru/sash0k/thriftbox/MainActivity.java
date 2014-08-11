@@ -53,8 +53,8 @@ public class MainActivity extends FragmentActivity {
     /**
      * Очистка введённого значения
      */
-    public void clearClick(View view) {
-        ((TextView) view).setText("");
+    public void commentClick(View view) {
+        // TODO: add comment to sum
     }
     // ============================================================================
 
