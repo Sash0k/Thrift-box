@@ -15,6 +15,8 @@ public class Utils {
     public static final String TAG = "THRIFTBOX";
     public static final boolean DEBUG = false;
 
+    public static final char ROUBLE = '\u20BD';
+    public static final String ROUBLE_FONT = "fonts/rouble2.ttf";
     public static void log(String msg) {
         if (DEBUG) Log.w(TAG, msg);
     }

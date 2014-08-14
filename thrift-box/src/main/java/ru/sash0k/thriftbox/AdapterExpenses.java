@@ -47,7 +47,7 @@ public class AdapterExpenses extends CursorTreeAdapter {
     protected void bindGroupView(View view, Context context, Cursor cursor, boolean b) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.date.setText(cursor.getString(viewHolder.date_col));
-        viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + context.getString(R.string.ruble));
+        viewHolder.value.setText(((MainActivity)context).parseRouble(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + Utils.ROUBLE));
     }
     // ============================================================================
 
@@ -69,7 +69,7 @@ public class AdapterExpenses extends CursorTreeAdapter {
     protected void bindChildView(View view, Context context, Cursor cursor, boolean b) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.category.setText(categories[cursor.getInt(viewHolder.category_col)]);
-        viewHolder.value.setText(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + context.getString(R.string.ruble));
+        viewHolder.value.setText(((MainActivity)context).parseRouble(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + Utils.ROUBLE));
     }
     // ============================================================================
 

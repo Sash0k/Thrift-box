@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ru.sash0k.thriftbox.MainActivity;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
 import ru.sash0k.thriftbox.categories.Categories;
@@ -70,7 +71,7 @@ public class InputFragment extends Fragment {
                     final int value = Utils.parseCurrency(textValue);
                     if (value > 0) {
                         DB.insertItem(context, value, categories.getSelected());
-                        Toast.makeText(context, getString(R.string.enter_value_done) + " " + textValue + getString(R.string.ruble), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, ((MainActivity)context).parseRouble(getString(R.string.enter_value_done) + " " + textValue + Utils.ROUBLE), Toast.LENGTH_SHORT).show();
                         valueTV.setText("");
                         Utils.updateWidgets(context);
                     } else

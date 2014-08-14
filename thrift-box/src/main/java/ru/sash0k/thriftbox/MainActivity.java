@@ -1,11 +1,13 @@
 package ru.sash0k.thriftbox;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
 
 public class MainActivity extends FragmentActivity {
+    private static Typeface roubleSupportedTypeface;
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
@@ -24,6 +27,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        roubleSupportedTypeface = Typeface.createFromAsset(getAssets(), Utils.ROUBLE_FONT);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -58,6 +62,23 @@ public class MainActivity extends FragmentActivity {
     }
     // ============================================================================
 
+    /**
+     * Отображение символа рубля из кастомного шрифта
+     */
+    public SpannableStringBuilder parseRouble(CharSequence value) {
+        if (roubleSupportedTypeface == null) return null;
+        else {
+            SpannableStringBuilder resultSpan = new SpannableStringBuilder(value);
+            for (int i = 0; i < resultSpan.length(); i++) {
+                if (resultSpan.charAt(i) == Utils.ROUBLE) {
+                    TypefaceSpan2 roubleTypefaceSpan = new TypefaceSpan2(roubleSupportedTypeface);
+                    resultSpan.setSpan(roubleTypefaceSpan, i, i + 1, 0);
+                }
+            }
+            return resultSpan;
+        }
+    }
+    // ============================================================================
 
     /**
      * A {@link android.support.v4.app.FragmentPagerAdapter} that returns a fragment corresponding to

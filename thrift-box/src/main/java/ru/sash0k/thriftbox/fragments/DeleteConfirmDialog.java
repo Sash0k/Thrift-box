@@ -6,9 +6,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.app.DialogFragment;
-import android.text.Html;
 import android.view.ContextThemeWrapper;
 
+import ru.sash0k.thriftbox.MainActivity;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
 import ru.sash0k.thriftbox.database.DB;
@@ -42,14 +42,14 @@ public class DeleteConfirmDialog extends DialogFragment {
         final int id = args.getInt(BaseColumns._ID);
         final String date = args.getString(DB.DATE);
         final int category = args.getInt(DB.CATEGORY);
-        final long value = args.getLong(DB.VALUE);
+        final String value = Utils.formatValue(args.getLong(DB.VALUE)) + Utils.ROUBLE + "?";
+        final String title = getString(R.string.delete_label) + " " + value;
         final String msg = context.getString(R.string.delete_msg) +
-                "<br><b>" + date + divider + categories[category] +
-                divider + Utils.formatValue(value) + context.getString(R.string.ruble) + "</b>?";
+                '\n'+ date + divider + categories[category] + divider + value;
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context)
-                .setTitle(R.string.delete_label)
-                .setMessage(Html.fromHtml(msg))
+                .setTitle(((MainActivity) getActivity()).parseRouble(title))
+                .setMessage(((MainActivity) getActivity()).parseRouble(msg))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
