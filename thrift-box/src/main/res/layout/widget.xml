@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@android:drawable/screen_background_light_transparent"
     android:orientation="vertical"
-    android:padding="3dp">
+    android:paddingLeft="2dp">
 
     <TextView
         android:id="@+id/widget_today"
@@ -20,12 +20,14 @@
         android:id="@+id/widget_week"
         style="@style/widget_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_ruble_small" />
 
     <TextView
         android:id="@+id/widget_month"
         style="@style/widget_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_ruble_small" />
 
 </LinearLayout>

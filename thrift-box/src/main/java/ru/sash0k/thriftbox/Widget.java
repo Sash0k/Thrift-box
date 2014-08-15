@@ -72,8 +72,8 @@ public class Widget extends AppWidgetProvider {
         final String month = Utils.formatValue(DB.getExpense(context, timestamps[2]));
 
         widgetView.setTextViewText(R.id.widget_today, today);
-        widgetView.setTextViewText(R.id.widget_week, context.getString(R.string.week) + " " + week); //+ " " + context.getString(R.string.ruble));
-        widgetView.setTextViewText(R.id.widget_month, context.getString(R.string.month) + " " + month); // + " " + context.getString(R.string.ruble));
+        widgetView.setTextViewText(R.id.widget_week, context.getString(R.string.week) + " " + week);
+        widgetView.setTextViewText(R.id.widget_month, context.getString(R.string.month) + " " + month);
 
         // Запуск по клику на виджет
         final Intent intent = new Intent(context, MainActivity.class);
