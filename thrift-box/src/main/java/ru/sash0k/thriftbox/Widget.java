@@ -7,6 +7,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
@@ -19,6 +21,8 @@ import ru.sash0k.thriftbox.database.DB;
  */
 public class Widget extends AppWidgetProvider {
     public static final String ACTION_AUTO_UPDATE_WIDGET = "ACTION_AUTO_UPDATE_WIDGET";
+    public static final String alpha = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            ? "setImageAlpha" : "setAlpha";
 
     @Override
     public void onEnabled(Context context) {
@@ -70,6 +74,11 @@ public class Widget extends AppWidgetProvider {
         final String today = Utils.formatValue(DB.getExpense(context, timestamps[0]));
         final String week = Utils.formatValue(DB.getExpense(context, timestamps[1]));
         final String month = Utils.formatValue(DB.getExpense(context, timestamps[2]));
+
+        // TODO: прозрачность из настроек
+        int transparency = 255;
+        widgetView.setInt(R.id.widget_background, "setColorFilter", Color.WHITE);
+        widgetView.setInt(R.id.widget_background, alpha, transparency);
 
         widgetView.setTextViewText(R.id.widget_today, today);
         widgetView.setTextViewText(R.id.widget_week, context.getString(R.string.week) + " " + week);
