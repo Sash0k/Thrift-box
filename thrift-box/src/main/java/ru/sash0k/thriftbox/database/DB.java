@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import ru.sash0k.thriftbox.Utils;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sash0k
@@ -19,8 +21,7 @@ public class DB {
      * User: sash0k
      */
     public static class DbOpenHelper extends SQLiteOpenHelper {
-
-        private static final int DB_VERSION = 1;
+        private static final int DB_VERSION = 2;
         private static final String DB_NAME = "thriftbox.db";
 
         public DbOpenHelper(Context context) {
@@ -29,30 +30,45 @@ public class DB {
 
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
-            final String expenses_table = "CREATE TABLE [" + EXPENSES_TABLE + "]" +
+            final String expenses_table = "CREATE TABLE IF NOT EXISTS [" + EXPENSES_TABLE + "]" +
                     " ([" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT," +
                     " [" + VALUE + "] INTEGER NOT NULL," +
                     " [" + CATEGORY + "] INTEGER NOT NULL DEFAULT(0)," +
+                    " [" + COMMENT + "] TEXT," +
                     " [" + TIMESTAMP + "] INTEGER NOT NULL DEFAULT(strftime('%s','now')));";
 
-            final String expenses_view = "CREATE VIEW [" + EXPENSES_VIEW + "] AS SELECT " +
-                    BaseColumns._ID + ", " + VALUE + ", " + CATEGORY + ", " + TIMESTAMP + ", " +
+            final String expenses_view = "CREATE VIEW IF NOT EXISTS [" + EXPENSES_VIEW + "] AS SELECT " +
+                    BaseColumns._ID + ", " + VALUE + ", " + CATEGORY + ", "
+                    + COMMENT + ", " + TIMESTAMP + ", " +
                     "strftime('%d.%m.%Y', " + TIMESTAMP + ", 'unixepoch', 'localtime') AS " + DATE +
                     " FROM " + EXPENSES_TABLE;
 
-            final String insert_trigger = "CREATE TRIGGER insert_expenses instead of insert on " + EXPENSES_VIEW +
+            final String insert_trigger = "CREATE TRIGGER IF NOT EXISTS " +
+                    "insert_expenses instead of insert on " + EXPENSES_VIEW +
                     " BEGIN INSERT into " + EXPENSES_TABLE + "(" + VALUE + ", " + CATEGORY + ") values(new." + VALUE + ", new." + CATEGORY + "); END;";
+
+            final String delete_trigger = "CREATE TRIGGER IF NOT EXISTS " +
+                    "delete_expenses instead of delete on " + EXPENSES_VIEW +
+                    " BEGIN DELETE from " + EXPENSES_TABLE + " WHERE " + BaseColumns._ID + " = OLD." + BaseColumns._ID + "; END;";
 
             sqLiteDatabase.execSQL(expenses_table);
             sqLiteDatabase.execSQL(expenses_view);
             sqLiteDatabase.execSQL(insert_trigger);
+            sqLiteDatabase.execSQL(delete_trigger);
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
+        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+            Utils.log("db onUpgrade: " + oldVersion + " >> " + newVersion);
             sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS insert_expenses");
+            sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS delete_expenses");
             sqLiteDatabase.execSQL("DROP VIEW IF EXISTS " + EXPENSES_VIEW);
-            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EXPENSES_TABLE);
+            if (oldVersion == 1 && newVersion == 2) {
+                // добавил категорию "Дети", смена номера категории "Путешествия" с 9 на 11
+                sqLiteDatabase.execSQL("UPDATE " + EXPENSES_TABLE + " SET " + CATEGORY + " = 11 WHERE " + CATEGORY + " = 9" );
+                sqLiteDatabase.execSQL("ALTER TABLE " + EXPENSES_TABLE + " ADD COLUMN " + COMMENT + " TEXT");
+            }
+            else sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EXPENSES_TABLE);
             onCreate(sqLiteDatabase);
         }
     }
@@ -66,6 +82,7 @@ public class DB {
     // BaseColumns._ID
     public static final String VALUE = "value";
     public static final String CATEGORY = "category";
+    public static final String COMMENT = "comment";
     public static final String TIMESTAMP = "timestamp";
 
     // поля таблицы EXPENSES_VIEW
@@ -106,9 +123,7 @@ public class DB {
      * Удалить запись из таблицы
      */
     public static void deleteItem(Context context, int id) {
-        // чтобы не писать триггер удаления EXPENSES_VIEW
-        context.getContentResolver().delete(getUri(EXPENSES_TABLE), BaseColumns._ID + "=?", new String[]{Integer.toString(id)});
-        context.getContentResolver().notifyChange(getUri(EXPENSES_VIEW), null);
+        context.getContentResolver().delete(getUri(EXPENSES_VIEW), BaseColumns._ID + "=?", new String[]{Integer.toString(id)});
     }
     // ====================================================================
 
