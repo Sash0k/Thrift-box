@@ -7,13 +7,16 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
 
 import ru.sash0k.thriftbox.database.DB;
+import ru.sash0k.thriftbox.fragments.SettingsFragment;
 
 /**
  * Реализация виджета для оторбражения расходов
@@ -75,11 +78,14 @@ public class Widget extends AppWidgetProvider {
         final String week = Utils.formatValue(DB.getExpense(context, timestamps[1]));
         final String month = Utils.formatValue(DB.getExpense(context, timestamps[2]));
 
-        // TODO: прозрачность из настроек
-        int transparency = 255;
+        // настройка прозрачности виджета
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final int transparency = Integer.parseInt(preferences.getString(
+                SettingsFragment.PREF_WIDGET_TRANSPARENCY_KEY, "255"));
         widgetView.setInt(R.id.widget_background, "setColorFilter", Color.WHITE);
         widgetView.setInt(R.id.widget_background, alpha, transparency);
 
+        // установка значений
         widgetView.setTextViewText(R.id.widget_today, today);
         widgetView.setTextViewText(R.id.widget_week, context.getString(R.string.week) + " " + week);
         widgetView.setTextViewText(R.id.widget_month, context.getString(R.string.month) + " " + month);

@@ -16,4 +16,21 @@
         <item>Путешествия</item>
     </string-array>
 
+    <!-- Настройки - прозрачность виджета -->
+    <string-array name="widget_transparency_title">
+        <item>0\uff05 - не прозрачный</item>
+        <item>25\uff05 прозрачности</item>
+        <item>50\uff05 прозрачности</item>
+        <item>75\uff05 прозрачности</item>
+        <item>100\uff05 - прозрачный</item>
+    </string-array>
+
+    <string-array name="widget_transparency_value">
+        <item>255</item>
+        <item>192</item>
+        <item>128</item>
+        <item>64</item>
+        <item>0</item>
+    </string-array>
+
 </resources>

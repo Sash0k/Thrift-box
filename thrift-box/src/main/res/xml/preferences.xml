@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:selectable="true"
+    android:shouldDisableView="true">
+
+    <PreferenceCategory android:title="@string/settings">
+        <ListPreference
+            android:key="pref_widget_transparency_key"
+            android:title="@string/pref_widget_transparency"
+            android:dialogTitle="@string/pref_widget_transparency"
+            android:defaultValue="255"/>
+
+        <!--<ListPreference-->
+            <!--android:key="pref_widget_text_color_key"-->
+            <!--android:title="@string/pref_widget_text_color"-->
+            <!--android:dialogTitle="@string/pref_widget_text_color" />-->
+    </PreferenceCategory>
+
+    <!--<PreferenceScreen-->
+        <!--android:key="share_activity"-->
+        <!--android:summary="поделиться ссылкой на приложение"-->
+        <!--android:title="Рассказать" />-->
+
+    <!--<PreferenceCategory android:title="Информация">-->
+        <!--<PreferenceScreen-->
+            <!--android:key="about_activity"-->
+            <!--android:summary="подробная информация"-->
+            <!--android:title="Приложение" />-->
+
+        <!--<PreferenceScreen-->
+            <!--android:key="other_apps_activity"-->
+            <!--android:summary="другие приложения разработчика"-->
+            <!--android:title="Разработчик" />-->
+    <!--</PreferenceCategory>-->
+</PreferenceScreen>

@@ -15,6 +15,7 @@ import com.viewpagerindicator.PageIndicator;
 
 import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
+import ru.sash0k.thriftbox.fragments.SettingsFragment;
 
 public class MainActivity extends FragmentActivity {
     private static Typeface roubleSupportedTypeface;
@@ -55,14 +56,6 @@ public class MainActivity extends FragmentActivity {
     // ============================================================================
 
     /**
-     * Очистка введённого значения
-     */
-    public void commentClick(View view) {
-        // TODO: add comment to sum
-    }
-    // ============================================================================
-
-    /**
      * Отображение символа рубля из кастомного шрифта
      */
     public SpannableStringBuilder parseRouble(CharSequence value) {
@@ -95,14 +88,16 @@ public class MainActivity extends FragmentActivity {
             switch (position) {
                 case 0:
                     return InputFragment.newInstance();
-                default:
+                case 1:
                     return ExpensesFragment.newInstance();
+                default:
+                    return SettingsFragment.newInstance();
             }
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 }

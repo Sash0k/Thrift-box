@@ -21,7 +21,6 @@
             android:gravity="right"
             android:hint="@string/enter_value_hint"
             android:maxLength="9"
-            android:onClick="commentClick"
             android:padding="10dp"
             android:singleLine="true"
             android:textColor="@android:color/black"

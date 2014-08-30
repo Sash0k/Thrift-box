@@ -27,4 +27,16 @@
     <string name="week">неделя:</string>
     <string name="month">месяц:</string>
 
+    <!-- Настройки -->
+    <!-- Strings for possible PreferenceActivity Back/Next buttons -->
+    <string name="back_button_label">Back</string>
+    <string name="next_button_label">Next</string>
+    <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
+    <string name="skip_button_label">Skip</string>
+
+    <string name="settings">Настройки</string>
+    <string name="pref_widget_transparency">Прозрачность виджета</string>
+    <string name="pref_widget_text_color">Цвет текста в виджете</string>
+
+    <string name="comment">Комментарий к расходу</string>
 </resources>
