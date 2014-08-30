@@ -37,6 +37,9 @@
     <string name="settings">Настройки</string>
     <string name="pref_widget_transparency">Прозрачность виджета</string>
     <string name="pref_widget_text_color">Цвет текста в виджете</string>
+    <string name="dialog_color_picker">Выбор цвета</string>
+    <string name="press_color_to_apply">Нажмите на цвет для выбора</string>
 
     <string name="comment">Комментарий к расходу</string>
+    <string name="ruble_small">р.</string>
 </resources>

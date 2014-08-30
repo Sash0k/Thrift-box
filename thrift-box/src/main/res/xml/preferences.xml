@@ -5,31 +5,33 @@
 
     <PreferenceCategory android:title="@string/settings">
         <ListPreference
-            android:key="pref_widget_transparency_key"
-            android:title="@string/pref_widget_transparency"
+            android:defaultValue="255"
             android:dialogTitle="@string/pref_widget_transparency"
-            android:defaultValue="255"/>
+            android:key="pref_widget_transparency_key"
+            android:title="@string/pref_widget_transparency" />
 
-        <!--<ListPreference-->
-            <!--android:key="pref_widget_text_color_key"-->
-            <!--android:title="@string/pref_widget_text_color"-->
-            <!--android:dialogTitle="@string/pref_widget_text_color" />-->
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:defaultValue="@android:color/black"
+            android:key="pref_widget_text_color_key"
+            android:summary="@string/dialog_color_picker"
+            android:title="@string/pref_widget_text_color" />
+
     </PreferenceCategory>
 
     <!--<PreferenceScreen-->
-        <!--android:key="share_activity"-->
-        <!--android:summary="поделиться ссылкой на приложение"-->
-        <!--android:title="Рассказать" />-->
+    <!--android:key="share_activity"-->
+    <!--android:summary="поделиться ссылкой на приложение"-->
+    <!--android:title="Рассказать" />-->
 
     <!--<PreferenceCategory android:title="Информация">-->
-        <!--<PreferenceScreen-->
-            <!--android:key="about_activity"-->
-            <!--android:summary="подробная информация"-->
-            <!--android:title="Приложение" />-->
+    <!--<PreferenceScreen-->
+    <!--android:key="about_activity"-->
+    <!--android:summary="подробная информация"-->
+    <!--android:title="Приложение" />-->
 
-        <!--<PreferenceScreen-->
-            <!--android:key="other_apps_activity"-->
-            <!--android:summary="другие приложения разработчика"-->
-            <!--android:title="Разработчик" />-->
+    <!--<PreferenceScreen-->
+    <!--android:key="other_apps_activity"-->
+    <!--android:summary="другие приложения разработчика"-->
+    <!--android:title="Разработчик" />-->
     <!--</PreferenceCategory>-->
 </PreferenceScreen>

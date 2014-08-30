@@ -8,7 +8,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
@@ -85,10 +92,17 @@ public class Widget extends AppWidgetProvider {
         widgetView.setInt(R.id.widget_background, "setColorFilter", Color.WHITE);
         widgetView.setInt(R.id.widget_background, alpha, transparency);
 
+        // настройка цвета текста
+        final int color = preferences.getInt(SettingsFragment.PREF_WIDGET_TEXT_COLOR_KEY, Color.BLACK);
+        widgetView.setImageViewBitmap(R.id.ruble_icon, changeBitmapColor(context, R.drawable.ruble, color));
+        widgetView.setTextColor(R.id.widget_today, color);
+        widgetView.setTextColor(R.id.widget_week, color);
+        widgetView.setTextColor(R.id.widget_month, color);
+
         // установка значений
         widgetView.setTextViewText(R.id.widget_today, today);
-        widgetView.setTextViewText(R.id.widget_week, context.getString(R.string.week) + " " + week);
-        widgetView.setTextViewText(R.id.widget_month, context.getString(R.string.month) + " " + month);
+        widgetView.setTextViewText(R.id.widget_week, context.getString(R.string.week) + " " + week + " " + context.getString(R.string.ruble_small));
+        widgetView.setTextViewText(R.id.widget_month, context.getString(R.string.month) + " " + month + " " + context.getString(R.string.ruble_small));
 
         // Запуск по клику на виджет
         final Intent intent = new Intent(context, MainActivity.class);
@@ -98,5 +112,18 @@ public class Widget extends AppWidgetProvider {
 
         // Обновляем виджет
         appWidgetManager.updateAppWidget(widgetID, widgetView);
+    }
+
+    private static Bitmap changeBitmapColor(Context context, int resId, int color) {
+        BitmapDrawable drawable = (BitmapDrawable) context.getResources().getDrawable(resId);
+        drawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        Bitmap bmp = drawable.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+        Canvas myCanvas = new Canvas(bmp);
+        int myColor = bmp.getPixel(0, 0);
+        ColorFilter filter = new LightingColorFilter(myColor, color);
+        Paint pnt = new Paint();
+        pnt.setColorFilter(filter);
+        myCanvas.drawBitmap(bmp, 0, 0, pnt);
+        return bmp;
     }
 }

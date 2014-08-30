@@ -43,6 +43,16 @@ public final class SettingsFragment extends PreferenceFragment
         // Обработчик на изменение настроек
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         prefs.registerOnSharedPreferenceChangeListener(this);
+
+        // Изменение цвета текста виджета
+        findPreference(PREF_WIDGET_TEXT_COLOR_KEY).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                final Context context = SettingsFragment.this.getActivity();
+                if (context != null) Utils.updateWidgets(context);
+                return true;
+            }
+        });
     }
     // ============================================================================
 
@@ -56,9 +66,11 @@ public final class SettingsFragment extends PreferenceFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String tag) {
-        setPrefenceTitle(tag);
-        final Context context = SettingsFragment.this.getActivity();
-        if ((context != null) && (tag.contains("widget"))) Utils.updateWidgets(context);
+        if (PREF_WIDGET_TRANSPARENCY_KEY.equals(tag)) {
+            setPrefenceTitle(tag);
+            final Context context = SettingsFragment.this.getActivity();
+            if (context != null) Utils.updateWidgets(context);
+        }
     }
     // ============================================================================
 
