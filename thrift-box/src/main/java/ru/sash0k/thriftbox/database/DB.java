@@ -112,10 +112,11 @@ public class DB {
     /**
      * Добавить запись в таблицу
      */
-    public static void insertItem(Context context, int value, int category) {
+    public static void insertItem(Context context, int value, int category, String comment) {
         ContentValues values = new ContentValues();
         values.put(VALUE, value);
         values.put(CATEGORY, category);
+        if (comment != null) values.put(COMMENT, comment.trim().isEmpty() ? null : comment);
         context.getContentResolver().insert(getUri(EXPENSES_VIEW), values);
     }
     // ====================================================================

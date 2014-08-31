@@ -1,6 +1,8 @@
 package ru.sash0k.thriftbox.fragments;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ public class InputFragment extends Fragment {
 
     private TextView valueTV;
     private Categories categories;
+    private String comment;
 
     public static InputFragment newInstance() {
         return new InputFragment();
@@ -49,11 +52,21 @@ public class InputFragment extends Fragment {
                 final int DRAWABLE_RIGHT = 2;
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (valueTV.getRight() - valueTV.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        valueTV.setText("");
+                        cleanValues();
                         return true;
                     }
                 }
                 return false;
+            }
+        });
+        valueTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view instanceof TextView && ((TextView) view).length() != 0) {
+                    CommentDialog dialog = CommentDialog.newInstance(comment);
+                    dialog.setTargetFragment(InputFragment.this, CommentDialog.CODE);
+                    dialog.show(getFragmentManager(), CommentDialog.TAG);
+                }
             }
         });
 
@@ -61,6 +74,7 @@ public class InputFragment extends Fragment {
         if (state != null) {
             valueTV.setText(state.getString(DB.VALUE));
             categories.setSelected(state.getInt(DB.CATEGORY));
+            this.comment = state.getString(DB.COMMENT);
         }
         Button enter = (Button) context.findViewById(R.id.enter_button);
         enter.setOnClickListener(new View.OnClickListener() {
@@ -70,9 +84,9 @@ public class InputFragment extends Fragment {
                     final String textValue = valueTV.getText().toString();
                     final int value = Utils.parseCurrency(textValue);
                     if (value > 0) {
-                        DB.insertItem(context, value, categories.getSelected());
+                        DB.insertItem(context, value, categories.getSelected(), comment);
                         Toast.makeText(context, ((MainActivity)context).parseRouble(getString(R.string.enter_value_done) + " " + textValue + Utils.ROUBLE), Toast.LENGTH_SHORT).show();
-                        valueTV.setText("");
+                        cleanValues();
                         Utils.updateWidgets(context);
                     } else
                         Toast.makeText(context, getString(R.string.enter_value_invalid), Toast.LENGTH_SHORT).show();
@@ -86,7 +100,32 @@ public class InputFragment extends Fragment {
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         state.putString(DB.VALUE, valueTV.getText().toString());
+        state.putString(DB.COMMENT, comment);
         state.putInt(DB.CATEGORY, categories.getSelected());
+    }
+    // ============================================================================
+
+
+    /**
+     * Получение текста комментария из диалога
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CommentDialog.CODE) {
+            if (resultCode == DialogInterface.BUTTON_POSITIVE) {
+                this.comment = data.getStringExtra(CommentDialog.TAG);
+            }
+        }
+    }
+    // ============================================================================
+
+
+    /**
+     * Очистить значение поля ввода и комментария
+     */
+    public void cleanValues() {
+        valueTV.setText("");
+        this.comment = null;
     }
     // ============================================================================
 

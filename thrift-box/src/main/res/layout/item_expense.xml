@@ -9,6 +9,7 @@
         style="@style/app_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:textSize="16sp" />
 
@@ -22,5 +23,18 @@
         android:paddingLeft="15dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@id/expense_value"/>
+
+    <TextView
+        android:id="@+id/expense_comment"
+        style="@style/app_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:paddingLeft="15dp"
+        android:layout_alignParentLeft="true"
+        android:textSize="14sp"
+        android:layout_toLeftOf="@id/expense_value"
+        android:layout_below="@id/expense_category"/>
 
 </RelativeLayout>

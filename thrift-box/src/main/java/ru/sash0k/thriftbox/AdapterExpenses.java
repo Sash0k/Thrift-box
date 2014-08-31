@@ -57,9 +57,11 @@ public class AdapterExpenses extends CursorTreeAdapter {
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.category = (TextView) view.findViewById(R.id.expense_category);
         viewHolder.value = (TextView) view.findViewById(R.id.expense_value);
+        viewHolder.comment = (TextView) view.findViewById(R.id.expense_comment);
 
         viewHolder.category_col = cursor.getColumnIndexOrThrow(DB.CATEGORY);
         viewHolder.value_col = cursor.getColumnIndexOrThrow(DB.VALUE);
+        viewHolder.comment_col = cursor.getColumnIndexOrThrow(DB.COMMENT);
         view.setTag(viewHolder);
         return view;
     }
@@ -70,6 +72,9 @@ public class AdapterExpenses extends CursorTreeAdapter {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.category.setText(categories[cursor.getInt(viewHolder.category_col)]);
         viewHolder.value.setText(((MainActivity)context).parseRouble(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + Utils.ROUBLE));
+        final String comment = cursor.getString(viewHolder.comment_col);
+        viewHolder.comment.setText(comment);
+        viewHolder.comment.setVisibility(comment == null ? View.GONE : View.VISIBLE);
     }
     // ============================================================================
 
@@ -112,7 +117,8 @@ public class AdapterExpenses extends CursorTreeAdapter {
         private TextView category;
         private TextView date;
         private TextView value;
-        private int date_col, category_col, value_col;
+        private TextView comment;
+        private int date_col, category_col, value_col, comment_col;
     }
     // ============================================================================
 }
