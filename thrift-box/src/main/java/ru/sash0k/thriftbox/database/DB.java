@@ -45,7 +45,8 @@ public class DB {
 
             final String insert_trigger = "CREATE TRIGGER IF NOT EXISTS " +
                     "insert_expenses instead of insert on " + EXPENSES_VIEW +
-                    " BEGIN INSERT into " + EXPENSES_TABLE + "(" + VALUE + ", " + CATEGORY + ") values(new." + VALUE + ", new." + CATEGORY + "); END;";
+                    " BEGIN INSERT into " + EXPENSES_TABLE + "(" + VALUE + ", " + CATEGORY + ", " + COMMENT + ")" +
+                    " values(new." + VALUE + ", new." + CATEGORY + ", new." + COMMENT + "); END;";
 
             final String delete_trigger = "CREATE TRIGGER IF NOT EXISTS " +
                     "delete_expenses instead of delete on " + EXPENSES_VIEW +
