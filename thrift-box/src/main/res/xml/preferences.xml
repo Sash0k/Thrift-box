@@ -18,20 +18,16 @@
 
     </PreferenceCategory>
 
-    <!--<PreferenceScreen-->
-    <!--android:key="share_activity"-->
-    <!--android:summary="поделиться ссылкой на приложение"-->
-    <!--android:title="Рассказать" />-->
+    <PreferenceCategory android:title="@string/about">
+        <PreferenceScreen
+            android:key="version"
+            android:selectable="false"
+            android:title="@string/app_name" />
 
-    <!--<PreferenceCategory android:title="Информация">-->
-    <!--<PreferenceScreen-->
-    <!--android:key="about_activity"-->
-    <!--android:summary="подробная информация"-->
-    <!--android:title="Приложение" />-->
+        <PreferenceScreen
+            android:key="developer"
+            android:summary="@string/developer_summary"
+            android:title="@string/developer" />
+    </PreferenceCategory>
 
-    <!--<PreferenceScreen-->
-    <!--android:key="other_apps_activity"-->
-    <!--android:summary="другие приложения разработчика"-->
-    <!--android:title="Разработчик" />-->
-    <!--</PreferenceCategory>-->
 </PreferenceScreen>

@@ -1,7 +1,10 @@
 package ru.sash0k.thriftbox.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -25,6 +28,8 @@ public final class SettingsFragment extends PreferenceFragment
      */
     public static final String PREF_WIDGET_TRANSPARENCY_KEY = "pref_widget_transparency_key";
     public static final String PREF_WIDGET_TEXT_COLOR_KEY = "pref_widget_text_color_key";
+    public static final String PREF_VERSION = "version";
+    public static final String PREF_DEVELOPER = "developer";
 
 
     public static SettingsFragment newInstance() {
@@ -50,6 +55,29 @@ public final class SettingsFragment extends PreferenceFragment
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 final Context context = SettingsFragment.this.getActivity();
                 if (context != null) Utils.updateWidgets(context);
+                return true;
+            }
+        });
+
+        // версия приложения
+        String version;
+        final Context c = getActivity();
+        try {
+            version = c.getString(R.string.version) + " " +
+                    c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName +
+                    " " + c.getString(R.string.license_info);
+        } catch (PackageManager.NameNotFoundException e) {
+            version = "";
+        }
+        findPreference(PREF_VERSION).setSummary(version);
+
+        // другие приложения разработчика
+        findPreference(PREF_DEVELOPER).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri
+                        .parse(c.getString(R.string.url_other_apps)));
+                startActivity(intent);
                 return true;
             }
         });

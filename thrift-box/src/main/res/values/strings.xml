@@ -34,6 +34,13 @@
     <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
     <string name="skip_button_label">Skip</string>
 
+    <string name="about">О приложении</string>
+    <string name="version">версия</string>
+    <string name="license_info">GNU GPLv3. Распространяется свободно.</string>
+    <string name="developer">Разработчик</string>
+    <string name="developer_summary">Другие приложения разработчика</string>
+    <string name="url_other_apps">https://play.google.com/store/apps/developer?id=Alexander+Vozjennikov</string>
+
     <string name="settings">Настройки</string>
     <string name="pref_widget_transparency">Прозрачность виджета</string>
     <string name="pref_widget_text_color">Цвет текста в виджете</string>
@@ -42,4 +49,5 @@
 
     <string name="comment">Комментарий к расходу</string>
     <string name="ruble_small">р.</string>
+
 </resources>
