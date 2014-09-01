@@ -65,7 +65,7 @@
             style="@style/button_red"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="1dp"
             android:text="@string/enter_button" />
 
     </LinearLayout>

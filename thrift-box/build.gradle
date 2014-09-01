@@ -8,8 +8,8 @@ android {
         applicationId "ru.sash0k.thriftbox"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 3
-        versionName "0.9"
+        versionCode 4
+        versionName "1.0"
     }
     buildTypes {
         release {
