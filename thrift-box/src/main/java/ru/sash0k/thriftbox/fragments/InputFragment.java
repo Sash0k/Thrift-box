@@ -121,8 +121,11 @@ public class InputFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CommentDialog.CODE) {
             if (resultCode == DialogInterface.BUTTON_POSITIVE) {
-                commentTV.setVisibility(View.VISIBLE);
-                commentTV.setText(data.getStringExtra(CommentDialog.TAG));
+                final String comment = data.getStringExtra(CommentDialog.TAG);
+                if ((comment != null) && (!comment.isEmpty())) {
+                    commentTV.setVisibility(View.VISIBLE);
+                    commentTV.setText(comment);
+                }
             }
         }
     }
