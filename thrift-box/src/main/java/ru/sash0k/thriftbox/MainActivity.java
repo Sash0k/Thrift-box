@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,17 +34,16 @@ public class MainActivity extends FragmentActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        PageIndicator indicator = (PageIndicator)findViewById(R.id.indicator);
+        PageIndicator indicator = (PageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mViewPager);
     }
     // ============================================================================
 
     /**
-     * Обработка ввода виртуальной клавиатуры
+     * Ввод суммы
      */
-    public void virtualKeyboardClick(View view) {
-        TextView valueTV = (TextView)mViewPager.findViewById(R.id.enter_value);
-        final String digit = view.getTag().toString();
+    private void keyboardClick(String digit) {
+        TextView valueTV = (TextView) mViewPager.findViewById(R.id.enter_value);
         if (valueTV != null) {
             String query = valueTV.getText().toString();
             if (getString(R.string.backspace).equals(digit)) {
@@ -56,6 +56,63 @@ public class MainActivity extends FragmentActivity {
                 }
             } else query += digit;
             valueTV.setText(query);
+        }
+    }
+    // ============================================================================
+
+    /**
+     * Обработка ввода виртуальной клавиатуры
+     */
+    public void virtualKeyboardClick(View view) {
+        final String digit = view.getTag().toString();
+        keyboardClick(digit);
+    }
+    // ============================================================================
+
+    /**
+     * Обработка ввода аппаратной клавиатуры
+     */
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent keyEvent) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_0:
+                keyboardClick(getString(R.string.zero));
+                return true;
+            case KeyEvent.KEYCODE_1:
+                keyboardClick(getString(R.string.one));
+                return true;
+            case KeyEvent.KEYCODE_2:
+                keyboardClick(getString(R.string.two));
+                return true;
+            case KeyEvent.KEYCODE_3:
+                keyboardClick(getString(R.string.three));
+                return true;
+            case KeyEvent.KEYCODE_4:
+                keyboardClick(getString(R.string.four));
+                return true;
+            case KeyEvent.KEYCODE_5:
+                keyboardClick(getString(R.string.five));
+                return true;
+            case KeyEvent.KEYCODE_6:
+                keyboardClick(getString(R.string.six));
+                return true;
+            case KeyEvent.KEYCODE_7:
+                keyboardClick(getString(R.string.seven));
+                return true;
+            case KeyEvent.KEYCODE_8:
+                keyboardClick(getString(R.string.eight));
+                return true;
+            case KeyEvent.KEYCODE_9:
+                keyboardClick(getString(R.string.nine));
+                return true;
+            case KeyEvent.KEYCODE_PERIOD:
+                keyboardClick(getString(R.string.dot));
+                return true;
+            case KeyEvent.KEYCODE_DEL:
+                keyboardClick(getString(R.string.backspace));
+                return true;
+            default:
+                return super.onKeyUp(keyCode, keyEvent);
         }
     }
     // ============================================================================
