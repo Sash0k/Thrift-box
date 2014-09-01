@@ -27,8 +27,8 @@ public class InputFragment extends Fragment {
     private static final String TAG = "InputFragment";
 
     private TextView valueTV;
+    private TextView commentTV;
     private Categories categories;
-    private String comment;
 
     public static InputFragment newInstance() {
         return new InputFragment();
@@ -63,18 +63,26 @@ public class InputFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (view instanceof TextView && ((TextView) view).length() != 0) {
-                    CommentDialog dialog = CommentDialog.newInstance(comment);
-                    dialog.setTargetFragment(InputFragment.this, CommentDialog.CODE);
-                    dialog.show(getFragmentManager(), CommentDialog.TAG);
+                    showCommentDialog(commentTV.getText());
                 }
+            }
+        });
+
+        commentTV = (TextView) context.findViewById(R.id.comment_value);
+        commentTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCommentDialog(((TextView)view).getText());
             }
         });
 
         categories = (Categories) context.findViewById(R.id.categories);
         if (state != null) {
-            valueTV.setText(state.getString(DB.VALUE));
             categories.setSelected(state.getInt(DB.CATEGORY));
-            this.comment = state.getString(DB.COMMENT);
+            valueTV.setText(state.getCharSequence(DB.VALUE));
+            CharSequence comment = state.getCharSequence(DB.COMMENT);
+            commentTV.setText(comment);
+            commentTV.setVisibility(comment.length() == 0 ? View.GONE : View.VISIBLE);
         }
         Button enter = (Button) context.findViewById(R.id.enter_button);
         enter.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +92,7 @@ public class InputFragment extends Fragment {
                     final String textValue = valueTV.getText().toString();
                     final int value = Utils.parseCurrency(textValue);
                     if (value > 0) {
-                        DB.insertItem(context, value, categories.getSelected(), comment);
+                        DB.insertItem(context, value, categories.getSelected(), commentTV.getText().toString());
                         Toast.makeText(context, ((MainActivity)context).parseRouble(getString(R.string.enter_value_done) + " " + textValue + Utils.ROUBLE), Toast.LENGTH_SHORT).show();
                         cleanValues();
                         Utils.updateWidgets(context);
@@ -99,8 +107,8 @@ public class InputFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
-        state.putString(DB.VALUE, valueTV.getText().toString());
-        state.putString(DB.COMMENT, comment);
+        state.putCharSequence(DB.VALUE, valueTV.getText());
+        state.putCharSequence(DB.COMMENT, commentTV.getText());
         state.putInt(DB.CATEGORY, categories.getSelected());
     }
     // ============================================================================
@@ -113,9 +121,21 @@ public class InputFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CommentDialog.CODE) {
             if (resultCode == DialogInterface.BUTTON_POSITIVE) {
-                this.comment = data.getStringExtra(CommentDialog.TAG);
+                commentTV.setVisibility(View.VISIBLE);
+                commentTV.setText(data.getStringExtra(CommentDialog.TAG));
             }
         }
+    }
+    // ============================================================================
+
+    /**
+     * Диалог редактирования комментария
+     * @param value - значение
+     */
+    private void showCommentDialog(CharSequence value) {
+        CommentDialog dialog = CommentDialog.newInstance(value);
+        dialog.setTargetFragment(InputFragment.this, CommentDialog.CODE);
+        dialog.show(getFragmentManager(), CommentDialog.TAG);
     }
     // ============================================================================
 
@@ -123,9 +143,10 @@ public class InputFragment extends Fragment {
     /**
      * Очистить значение поля ввода и комментария
      */
-    public void cleanValues() {
+    private void cleanValues() {
         valueTV.setText("");
-        this.comment = null;
+        commentTV.setText("");
+        commentTV.setVisibility(View.GONE);
     }
     // ============================================================================
 

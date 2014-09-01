@@ -49,7 +49,11 @@ public class MainActivity extends FragmentActivity {
             if (getString(R.string.backspace).equals(digit)) {
                 final int len = query.length() - 1;
                 query = query.substring(0, (len < 0) ? 0 : len);
-                // TODO: чистить комментарий тут
+                if (len == 0) {
+                    TextView commentTV = (TextView) mViewPager.findViewById(R.id.comment_value);
+                    commentTV.setText("");
+                    commentTV.setVisibility(View.GONE);
+                }
             } else query += digit;
             valueTV.setText(query);
         }

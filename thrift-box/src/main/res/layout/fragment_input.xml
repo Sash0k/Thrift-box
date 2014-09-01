@@ -15,17 +15,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textfield_multiline_default_holo_light"
-            android:drawableRight="@drawable/backspace"
-            android:drawablePadding="5dp"
             android:clickable="true"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/backspace"
             android:gravity="right"
             android:hint="@string/enter_value_hint"
             android:maxLength="9"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="32sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/comment_value"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:singleLine="true"
+            android:textColor="@color/gray"
+            android:textSize="12sp" />
 
         <!-- Список категорий -->
         <ru.sash0k.thriftbox.categories.InterceptingHorizontalScrollView

@@ -20,10 +20,10 @@ public class CommentDialog extends DialogFragment {
     public static final int CODE = 1;
     private EditText editComment;
 
-    public static CommentDialog newInstance(String value) {
+    public static CommentDialog newInstance(CharSequence value) {
         CommentDialog f = new CommentDialog();
         Bundle arguments = new Bundle();
-        arguments.putString(TAG, value);
+        arguments.putCharSequence(TAG, value);
         f.setArguments(arguments);
         return f;
     }
@@ -33,7 +33,7 @@ public class CommentDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Context context = new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
         editComment = new EditText(context);
-        editComment.setText(getArguments().getString(TAG));
+        editComment.setText(getArguments().getCharSequence(TAG));
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context)
                 .setMessage(R.string.comment)
