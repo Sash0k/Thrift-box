@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         applicationId "ru.sash0k.thriftbox"
         minSdkVersion 9
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 4
         versionName "1.0"
     }
@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.+'
+    compile 'com.android.support:support-v4:21.0.3'
     compile 'com.viewpagerindicator:library:2.4.1@aar'
 }
 
