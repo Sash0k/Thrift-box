@@ -16,6 +16,7 @@ import com.viewpagerindicator.PageIndicator;
 
 import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
+import ru.sash0k.thriftbox.fragments.PieChartFragment;
 import ru.sash0k.thriftbox.fragments.SettingsFragment;
 
 public class MainActivity extends FragmentActivity {
@@ -34,6 +35,7 @@ public class MainActivity extends FragmentActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(1);
         PageIndicator indicator = (PageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mViewPager);
     }
@@ -149,8 +151,10 @@ public class MainActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return InputFragment.newInstance();
+                    return PieChartFragment.newInstance();
                 case 1:
+                    return InputFragment.newInstance();
+                case 2:
                     return ExpensesFragment.newInstance();
                 default:
                     return SettingsFragment.newInstance();
@@ -159,7 +163,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 }

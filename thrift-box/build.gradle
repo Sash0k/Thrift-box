@@ -22,6 +22,7 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.viewpagerindicator:library:2.4.1@aar'
 }
 

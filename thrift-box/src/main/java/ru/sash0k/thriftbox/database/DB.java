@@ -8,6 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.nio.channels.FileLock;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ru.sash0k.thriftbox.Utils;
 
 /**
@@ -145,6 +151,26 @@ public class DB {
             } else mCursor.close();
         }
         return 0;
+    }
+    // ====================================================================
+
+
+    /**
+     * Получить расходы по категориям за месяц
+     */
+    public static Map<Integer, Float> getMonth(Context context, long timestamp) {
+        final String[] columns = new String[]{CATEGORY, "SUM(" + VALUE + ") AS " + VALUE};
+        final String where = TIMESTAMP + ">=? GROUP BY (" + CATEGORY + ")";
+        Cursor mCursor = context.getContentResolver().query(getUri(EXPENSES_TABLE),
+                columns, where, new String[]{Long.toString(timestamp)}, CATEGORY);
+
+        if (mCursor == null) return null;
+        Map<Integer, Float> result = new HashMap<>(mCursor.getCount());
+        while (mCursor.moveToNext()) {
+            result.put(mCursor.getInt(0), mCursor.getFloat(1) / 100.0f);
+        }
+        mCursor.close();
+        return result;
     }
     // ====================================================================
 
