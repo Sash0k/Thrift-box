@@ -21,7 +21,7 @@
 
         <provider
             android:name=".database.DBProvider"
-            android:authorities="ru.sash0k.thriftbox.database.DBProvider"
+            android:authorities="${applicationId}.database.DBProvider"
             android:exported="false" />
 
         <!-- Виджет для отображения расходов -->

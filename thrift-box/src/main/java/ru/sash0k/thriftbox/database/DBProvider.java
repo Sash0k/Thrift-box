@@ -9,13 +9,15 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import ru.sash0k.thriftbox.BuildConfig;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sash0k
  * Провайдер для соединения с локальной базой данных
  */
 public class DBProvider extends ContentProvider {
-    public static final String AUTHORITY = "ru.sash0k.thriftbox.database.DBProvider";
+    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".database.DBProvider";
 
     private DB.DbOpenHelper databaseHandler;
     private SQLiteDatabase database;
