@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.view.ContextThemeWrapper;
 
 import ru.sash0k.thriftbox.MainActivity;
 import ru.sash0k.thriftbox.R;
@@ -35,7 +34,7 @@ public class DeleteConfirmDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Context context = new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
+        final Context context = getActivity();
         String[] categories = context.getResources().getStringArray(R.array.categories);
 
         final Bundle args = getArguments();
