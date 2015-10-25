@@ -56,9 +56,17 @@
         </ru.sash0k.thriftbox.categories.InterceptingHorizontalScrollView>
 
         <!-- Виртуальная клавиатура -->
-        <include
-            android:id="@+id/virtual_keyboard"
-            layout="@layout/virtual_keyboard" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1">
+
+            <include layout="@layout/pad_numeric" />
+        </LinearLayout>
+
+        <!--<include-->
+        <!--android:id="@+id/virtual_keyboard"-->
+        <!--layout="@layout/virtual_keyboard" />-->
 
         <Button
             android:id="@+id/enter_button"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="PadButtonStyle.Numeric" parent="PadButtonStyle">
+        <item name="android:layout_margin">4dip</item>
+        <item name="android:textSize">23sp</item>
+    </style>
+
+    <style name="PadButtonStyle.Numeric.Equals">
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="PadLayoutStyle.Numeric">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_weight">240</item>
+        <item name="android:paddingTop">4dip</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:paddingLeft">8dip</item>
+        <item name="android:paddingStart">8dip</item>
+        <item name="android:paddingRight">8dip</item>
+        <item name="android:paddingEnd">8dip</item>
+    </style>
+</resources>

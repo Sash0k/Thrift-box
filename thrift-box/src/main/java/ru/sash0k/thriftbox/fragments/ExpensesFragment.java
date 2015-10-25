@@ -54,7 +54,6 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
         // styling listView
         final ExpandableListView list = getListView();
         final Drawable divider = getResources().getDrawable(R.drawable.list_divider);
-        list.setSelector(R.drawable.list_selector_holo_light);
         list.setDivider(divider);
         list.setChildDivider(divider);
         list.setDividerHeight(getPx(1));

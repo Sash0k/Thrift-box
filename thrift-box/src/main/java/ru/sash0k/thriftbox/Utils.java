@@ -4,8 +4,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
-
+import android.view.View;
+import android.view.Window;
 
 import java.util.Calendar;
 
@@ -84,4 +87,37 @@ public class Utils {
         context.sendBroadcast(intent);
     }
     // ============================================================================
+
+    public static boolean hasHoneycomb() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    }
+
+    public static boolean hasJellyBean() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    }
+
+    public static boolean hasLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static void setLayerTypeCompat(View view, int layerType) {
+        if (hasHoneycomb()) {
+            view.setLayerType(layerType, null);
+        }
+    }
+
+    public static void setBackgroundCompat(View view, Drawable drawable) {
+        if (hasJellyBean()) {
+            view.setBackground(drawable);
+        } else {
+            view.setBackgroundDrawable(drawable);
+        }
+    }
+
+    public static void setStatusBarColorCompat(Window window, int color) {
+        if (hasLollipop()) {
+            window.setStatusBarColor(color);
+        }
+    }
+
 }
