@@ -1,11 +1,11 @@
 package ru.sash0k.thriftbox.fragments;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;

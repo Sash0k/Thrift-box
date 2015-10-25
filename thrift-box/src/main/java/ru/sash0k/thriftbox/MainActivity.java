@@ -1,11 +1,11 @@
 package ru.sash0k.thriftbox;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.SpannableStringBuilder;
 import android.view.KeyEvent;
@@ -18,7 +18,7 @@ import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
 import ru.sash0k.thriftbox.fragments.SettingsFragment;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
     private static Typeface roubleSupportedTypeface;
 
     SectionsPagerAdapter mSectionsPagerAdapter;
@@ -30,7 +30,7 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         roubleSupportedTypeface = Typeface.createFromAsset(getAssets(), Utils.ROUBLE_FONT);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -136,7 +136,7 @@ public class MainActivity extends FragmentActivity {
     // ============================================================================
 
     /**
-     * A {@link android.support.v4.app.FragmentPagerAdapter} that returns a fragment corresponding to
+     * A {@link android.support.v13.app.FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
