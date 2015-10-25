@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.NoTitleBar">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <item name="android:windowBackground">@android:color/background_light</item>
         <item name="android:colorBackground">@android:color/background_light</item>
         <item name="android:textAppearanceLarge">@style/MyTextAppearance</item>

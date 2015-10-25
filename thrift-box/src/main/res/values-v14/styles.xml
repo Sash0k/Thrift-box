@@ -1,9 +1,0 @@
-<resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar">
-        <item name="android:windowBackground">@android:color/background_light</item>
-        <item name="android:colorBackground">@android:color/background_light</item>
-    </style>
-
-</resources>
