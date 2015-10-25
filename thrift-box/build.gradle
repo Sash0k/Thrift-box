@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "ru.sash0k.thriftbox"
-        minSdkVersion 10
+        minSdkVersion 15
         targetSdkVersion 23
         versionCode 4
         versionName "1.0"
@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:23.1.0'
+    compile 'com.android.support:support-v13:23.1.0'
     compile 'com.viewpagerindicator:library:2.4.1@aar'
 }
 
