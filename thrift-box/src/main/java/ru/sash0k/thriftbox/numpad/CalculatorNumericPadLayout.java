@@ -27,6 +27,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 import ru.sash0k.thriftbox.R;
+import ru.sash0k.thriftbox.Utils;
 
 public class CalculatorNumericPadLayout extends CalculatorPadLayout {
 
@@ -48,10 +49,12 @@ public class CalculatorNumericPadLayout extends CalculatorPadLayout {
         super.onFinishInflate();
 
         Locale locale = getResources().getConfiguration().locale;
-        locale = new Locale.Builder()
-                .setLocale(locale)
-                .setUnicodeLocaleKeyword("nu", "latn")
-                .build();
+        if (Utils.hasLollipop()) {
+            locale = new Locale.Builder()
+                    .setLocale(locale)
+                    .setUnicodeLocaleKeyword("nu", "latn")
+                    .build();
+        }
 
         final DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
         final char zeroDigit = symbols.getZeroDigit();
