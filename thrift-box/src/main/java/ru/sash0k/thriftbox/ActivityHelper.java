@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -23,7 +24,7 @@ import ru.sash0k.thriftbox.numpad.RevealColorView;
 /**
  * Created by sash0k on 27.10.15.
  */
-public abstract class ActivityHelper extends Activity {
+public abstract class ActivityHelper extends FragmentActivity {
     private static Typeface roubleSupportedTypeface;
 
     protected LinearLayout mDisplayView;

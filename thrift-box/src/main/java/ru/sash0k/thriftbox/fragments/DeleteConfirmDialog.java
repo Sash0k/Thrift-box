@@ -1,12 +1,13 @@
 package ru.sash0k.thriftbox.fragments;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.support.v4.app.DialogFragment;
 
+import ru.sash0k.thriftbox.ActivityHelper;
 import ru.sash0k.thriftbox.MainActivity;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
@@ -47,8 +48,8 @@ public class DeleteConfirmDialog extends DialogFragment {
                 '\n'+ date + divider + categories[category] + divider + value;
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context)
-                .setTitle(((MainActivity) getActivity()).parseRouble(title))
-                .setMessage(((MainActivity) getActivity()).parseRouble(msg))
+                .setTitle(((ActivityHelper) getActivity()).parseRouble(title))
+                .setMessage(((ActivityHelper) getActivity()).parseRouble(msg))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -35,8 +35,7 @@
         android:paddingRight="@dimen/preference_fragment_padding_side"
         android:paddingTop="0dip"
         android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbarStyle="@integer/preference_fragment_scrollbarStyle"
-        android:listSelector="@drawable/list_selector_holo_light"/>
+        android:scrollbarStyle="@integer/preference_fragment_scrollbarStyle"/>
 
     <TextView
         android:id="@android:id/empty"

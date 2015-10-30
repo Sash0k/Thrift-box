@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v4.preference.PreferenceFragment;
 
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
