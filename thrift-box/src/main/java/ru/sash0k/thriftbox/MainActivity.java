@@ -28,6 +28,20 @@ public class MainActivity extends ActivityHelper {
         setContentView(R.layout.activity_main);
 
         mDisplayView = (LinearLayout) findViewById(R.id.activity_main);
+        /*
+        if (!Utils.hasLollipop()) {
+            mDisplayView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Utils.removeOnGlobalLayoutListenerCompat(mDisplayView, this);
+                    revealColorView = new RevealColorView(MainActivity.this);
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mDisplayView.getHeight());
+                    revealColorView.setLayoutParams(params);
+                    revealColorView.setBackgroundResource(android.R.color.transparent);
+                    mDisplayView.addView(revealColorView);
+                }
+            });
+        }*/
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 

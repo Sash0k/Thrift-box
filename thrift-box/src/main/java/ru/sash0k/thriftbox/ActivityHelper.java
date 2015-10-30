@@ -18,6 +18,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 
 import ru.sash0k.thriftbox.numpad.AnimatorListenerWrapper;
+import ru.sash0k.thriftbox.numpad.RevealColorView;
 
 /**
  * Created by sash0k on 27.10.15.
@@ -26,6 +27,7 @@ public abstract class ActivityHelper extends Activity {
     private static Typeface roubleSupportedTypeface;
 
     protected LinearLayout mDisplayView;
+    protected RevealColorView revealColorView;
     private Animator mCurrentAnimator;
 
     private void cancelAnimation() {
@@ -69,7 +71,7 @@ public abstract class ActivityHelper extends Activity {
     // ============================================================================
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public void reveal(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
+    public void reveal5(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
         final ViewGroupOverlay groupOverlay =
                 (ViewGroupOverlay) getWindow().getDecorView().getOverlay();
 
@@ -120,6 +122,45 @@ public abstract class ActivityHelper extends Activity {
             @Override
             public void onAnimationEnd(Animator animator) {
                 groupOverlay.remove(revealView);
+                mCurrentAnimator = null;
+            }
+        });
+
+        mCurrentAnimator = animatorSet;
+        animatorSet.start();
+    }
+
+    public void reveal4(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
+        final int[] clearLocation = new int[2];
+        sourceView.getLocationInWindow(clearLocation);
+        clearLocation[0] += sourceView.getWidth() / 2;
+        clearLocation[1] += sourceView.getHeight() / 2;
+
+        final int revealCenterX = clearLocation[0] - revealColorView.getLeft();
+        final int revealCenterY = clearLocation[1] - revealColorView.getTop();
+
+        final Animator revealAnimator =
+                revealColorView.createCircularReveal(
+                        revealCenterX, revealCenterY, getResources().getColor(colorRes));
+        revealAnimator.setDuration(
+                getResources().getInteger(android.R.integer.config_longAnimTime));
+
+        final Animator alphaAnimator = ObjectAnimator.ofFloat(revealColorView, "alpha", 1, 0);
+        alphaAnimator.setDuration(
+                getResources().getInteger(android.R.integer.config_mediumAnimTime));
+        alphaAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                listener.onAnimationStart();
+            }
+        });
+
+        final AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(revealAnimator).before(alphaAnimator);
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animator) {
                 mCurrentAnimator = null;
             }
         });

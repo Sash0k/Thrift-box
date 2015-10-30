@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 
 import java.util.Calendar;
@@ -117,6 +118,14 @@ public class Utils {
     public static void setStatusBarColorCompat(Window window, int color) {
         if (hasLollipop()) {
             window.setStatusBarColor(color);
+        }
+    }
+
+    public static void removeOnGlobalLayoutListenerCompat(View view, ViewTreeObserver.OnGlobalLayoutListener listener) {
+        if (hasJellyBean()) {
+            view.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+        } else {
+            view.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
         }
     }
 
