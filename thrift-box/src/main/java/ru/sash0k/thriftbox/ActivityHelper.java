@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -14,9 +13,9 @@ import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.LinearLayout;
 
 import ru.sash0k.thriftbox.numpad.AnimatorListenerWrapper;
 import ru.sash0k.thriftbox.numpad.RevealColorView;
@@ -27,7 +26,7 @@ import ru.sash0k.thriftbox.numpad.RevealColorView;
 public abstract class ActivityHelper extends FragmentActivity {
     private static Typeface roubleSupportedTypeface;
 
-    protected LinearLayout mDisplayView;
+    protected ViewGroup mDisplayView;
     protected RevealColorView revealColorView;
     private Animator mCurrentAnimator;
 

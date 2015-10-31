@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.PageIndicator;
@@ -27,7 +27,7 @@ public class MainActivity extends ActivityHelper {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDisplayView = (LinearLayout) findViewById(R.id.activity_main);
+        mDisplayView = (ViewGroup) findViewById(R.id.activity_main);
         /*
         if (!Utils.hasLollipop()) {
             mDisplayView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

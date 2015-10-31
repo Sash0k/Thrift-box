@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+<TextView
+    style="@style/toolbar_text"
+    android:id="@+id/enter_value"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/enter_value_hint"
+    android:textSize="@dimen/action_bar_size"
+    android:maxLength="9" />
+
+<TextView
+    style="@style/toolbar_text"
+    android:id="@+id/comment_value"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/enter_value"
+    android:visibility="gone"
+    android:paddingBottom="8dp"
+    android:textSize="14sp" />
+
+</RelativeLayout>

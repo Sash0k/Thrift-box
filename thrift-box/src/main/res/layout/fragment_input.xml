@@ -16,83 +16,13 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                style="@style/toolbar_text"
-                android:id="@+id/enter_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_value_hint"
-                android:textSize="@dimen/action_bar_size"
-                android:maxLength="9" />
-
-            <TextView
-                style="@style/toolbar_text"
-                android:id="@+id/comment_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/enter_value"
-                android:visibility="gone"
-                android:paddingBottom="8dp"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
+            <!-- Содержимое Toolbar-->
+            <include layout="@layout/fragment_input_toolbar"/>
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/toolbar"
-    android:fillViewport="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
-
-        <!-- Список категорий -->
-        <ru.sash0k.thriftbox.categories.InterceptingHorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <ru.sash0k.thriftbox.categories.Categories
-                android:id="@+id/categories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" />
-        </ru.sash0k.thriftbox.categories.InterceptingHorizontalScrollView>
-
-        <!-- Виртуальная клавиатура -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1">
-
-            <include layout="@layout/pad_numeric" />
-        </LinearLayout>
-
-        <!--<include-->
-        <!--android:id="@+id/virtual_keyboard"-->
-        <!--layout="@layout/virtual_keyboard" />-->
-
-        <Button
-            android:id="@+id/enter_button"
-            style="@style/button_red"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:text="@string/enter_button" />
-    </LinearLayout>
-
-</ScrollView>
+    <include layout="@layout/fragment_input_content"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
