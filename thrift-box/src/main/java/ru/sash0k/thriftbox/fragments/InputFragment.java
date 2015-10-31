@@ -1,9 +1,11 @@
 package ru.sash0k.thriftbox.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -88,26 +90,39 @@ public class InputFragment extends Fragment {
             commentTV.setText(comment);
             commentTV.setVisibility(comment.length() == 0 ? View.GONE : View.VISIBLE);
         }
+
+        FloatingActionButton fab = (FloatingActionButton) context.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                enterValue(context);
+            }
+        });
+        
         Button enter = (Button) context.findViewById(R.id.enter_button);
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (valueTV != null) {
-                    final String textValue = valueTV.getText().toString();
-                    final int value = Utils.parseCurrency(textValue);
-                    if (value > 0) {
-                        final String comment = commentTV.getText().toString();
-                        DB.insertItem(context, value, categories.getSelected(), comment);
-                        Toast.makeText(context, ((MainActivity)context).parseRouble(getString(R.string.enter_value_done) + " " + textValue + Utils.ROUBLE + " " + comment), Toast.LENGTH_SHORT).show();
-                        cleanValues();
-                        Utils.updateWidgets(context);
-                    } else
-                        Toast.makeText(context, getString(R.string.enter_value_invalid), Toast.LENGTH_SHORT).show();
-                }
+                enterValue(context);
             }
         });
     }
     // ============================================================================
+
+    private void enterValue(Context context) {
+        if (valueTV != null) {
+            final String textValue = valueTV.getText().toString();
+            final int value = Utils.parseCurrency(textValue);
+            if (value > 0) {
+                final String comment = commentTV.getText().toString();
+                DB.insertItem(context, value, categories.getSelected(), comment);
+                Toast.makeText(context, ((MainActivity)context).parseRouble(getString(R.string.enter_value_done) + " " + textValue + Utils.ROUBLE + " " + comment), Toast.LENGTH_SHORT).show();
+                cleanValues();
+                Utils.updateWidgets(context);
+            } else
+                Toast.makeText(context, getString(R.string.enter_value_invalid), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onSaveInstanceState(Bundle state) {
