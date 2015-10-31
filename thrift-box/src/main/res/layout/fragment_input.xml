@@ -1,6 +1,35 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_size_x2"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/enter_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/backspace"
+            android:hint="@string/enter_value_hint"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textSize="@dimen/action_bar_size"/>
+
+
+    </android.support.v7.widget.Toolbar>
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_below="@id/toolbar"
     android:fillViewport="true">
 
     <LinearLayout
@@ -9,25 +38,6 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
-
-        <TextView
-            android:id="@+id/enter_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textfield_multiline_default_holo_light"
-            android:clickable="true"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/backspace"
-            android:gravity="right"
-            android:hint="@string/enter_value_hint"
-            android:maxLength="9"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            android:textSize="32sp"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/comment_value"
@@ -78,3 +88,4 @@
 
     </LinearLayout>
 </ScrollView>
+</RelativeLayout>

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,7 +46,9 @@ public class InputFragment extends Fragment {
     public void onActivityCreated(Bundle state) {
         super.onActivityCreated(state);
         final Activity context = getActivity();
-        valueTV = (TextView) context.findViewById(R.id.enter_value);
+        Toolbar toolbar = (Toolbar) context.findViewById(R.id.toolbar);
+
+        valueTV = (TextView) toolbar.findViewById(R.id.enter_value);
         valueTV.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
