@@ -10,19 +10,30 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize">
 
-        <TextView
-            android:id="@+id/enter_value"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/backspace"
-            android:hint="@string/enter_value_hint"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
-            android:textSize="@dimen/action_bar_size"/>
+            android:layout_height="wrap_content">
 
+            <TextView
+                style="@style/toolbar_text"
+                android:id="@+id/enter_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_value_hint"
+                android:textSize="@dimen/action_bar_size"
+                android:maxLength="9" />
+
+            <TextView
+                style="@style/toolbar_text"
+                android:id="@+id/comment_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/enter_value"
+                android:visibility="gone"
+                android:paddingBottom="8dp"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
@@ -38,19 +49,6 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
-
-        <TextView
-            android:id="@+id/comment_value"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp"
-            android:singleLine="true"
-            android:textColor="@color/gray"
-            android:textSize="14sp" />
 
         <!-- Список категорий -->
         <ru.sash0k.thriftbox.categories.InterceptingHorizontalScrollView

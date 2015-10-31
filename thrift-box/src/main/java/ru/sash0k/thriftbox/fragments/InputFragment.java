@@ -49,6 +49,7 @@ public class InputFragment extends Fragment {
         Toolbar toolbar = (Toolbar) context.findViewById(R.id.toolbar);
 
         valueTV = (TextView) toolbar.findViewById(R.id.enter_value);
+        /*
         valueTV.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -61,7 +62,7 @@ public class InputFragment extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
         valueTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

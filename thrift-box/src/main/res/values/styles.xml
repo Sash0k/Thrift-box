@@ -41,6 +41,16 @@
         <item name="android:padding">5dp</item>
     </style>
 
+    <!-- Текст в тулбаре -->
+    <style name="toolbar_text">
+        <item name="android:textColor">@color/primary_light</item>
+        <item name="android:textColorHint">@color/primary_light</item>
+        <item name="android:gravity">right|end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingRight">@dimen/activity_vertical_margin</item>
+    </style>
+
     <!-- Текст в приложении -->
     <style name="app_text">
         <item name="android:textColor">@android:color/black</item>
