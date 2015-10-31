@@ -31,6 +31,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:fabSize="normal"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_plus_white_36dp" />
+        android:src="@mipmap/ic_plus_white_36dp" />
 
 </android.support.design.widget.CoordinatorLayout>

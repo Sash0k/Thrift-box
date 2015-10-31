@@ -25,10 +25,10 @@ public class Categories extends LinearLayout {
      * Настройки класса
      */
     // ============================================================================
-    private static final int[] mImages = {R.drawable.star,
-            R.drawable.trolley, R.drawable.filling, R.drawable.transport, R.drawable.restaurants,
-            R.drawable.culture, R.drawable.shopping, R.drawable.mobile,
-            R.drawable.housing, R.drawable.family, R.drawable.medicine, R.drawable.air};
+    private static final int[] mImages = {R.mipmap.star,
+            R.mipmap.trolley, R.mipmap.filling, R.mipmap.transport, R.mipmap.restaurants,
+            R.mipmap.culture, R.mipmap.shopping, R.mipmap.mobile,
+            R.mipmap.housing, R.mipmap.family, R.mipmap.medicine, R.mipmap.air};
 
     private final String[] categories;
     private final Context mContext;
