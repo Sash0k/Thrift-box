@@ -15,32 +15,6 @@
         <item name="android:statusBarColor">@color/primary_dark</item>
     </style>
 
-    <style name="MyTextAppearance" parent="@android:style/TextAppearance.Large">
-        <item name="android:textColor">@android:color/black</item>
-    </style>
-
-    <!-- Стиль кнопки на виртуальной клавиатуре -->
-    <style name="VirtualKeyboardButton">
-        <item name="android:background">@drawable/key_button</item>
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">28sp</item>
-        <item name="android:onClick">virtualKeyboardClick</item>
-    </style>
-
-    <!-- Красная кнопка -->
-    <style name="button_red">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">28sp</item>
-        <item name="android:background">@drawable/enter_button</item>
-        <item name="android:padding">5dp</item>
-    </style>
-
     <style name="PadButtonStyle" parent="@android:style/Widget.Material.Light.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
