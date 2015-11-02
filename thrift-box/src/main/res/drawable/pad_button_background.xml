@@ -1,26 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (C) 2014 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+    <item android:state_pressed="true">
+        <shape android:shape="oval">
+            <solid android:color="@color/accent"/>
+        </shape>
+    </item>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    <item android:state_focused="true" >
+        <shape android:shape="oval">
+            <solid android:color="@color/accent"/>
+        </shape>
+    </item>
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-  -->
+    <item android:state_hovered="true" >
+        <shape android:shape="oval">
+            <solid android:color="@color/accent"/>
+        </shape>
+    </item>
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/accent" android:state_pressed="true" />
-    <!-- pressed -->
-    <item android:drawable="@color/accent" android:state_focused="true" />
-    <!-- focused -->
-    <item android:drawable="@color/accent" android:state_hovered="true" />
-    <!-- hovered -->
-    <item android:drawable="@android:color/transparent" />
     <!-- default -->
+    <item android:drawable="@android:color/transparent" />
 </selector>
