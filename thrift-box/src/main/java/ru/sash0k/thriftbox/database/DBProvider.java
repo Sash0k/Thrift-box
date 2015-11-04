@@ -26,11 +26,13 @@ public class DBProvider extends ContentProvider {
     private static final UriMatcher uriMatcher;
     public static final int URI_EXPENSES = 0;
     public static final int URI_EXPENSES_VIEW = 1;
+    public static final int URI_STATISTICS_VIEW = 2;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(AUTHORITY, DB.EXPENSES_TABLE, URI_EXPENSES);
         uriMatcher.addURI(AUTHORITY, DB.EXPENSES_VIEW, URI_EXPENSES_VIEW);
+        uriMatcher.addURI(AUTHORITY, DB.STATISTICS_VIEW, URI_STATISTICS_VIEW);
     }
 
     public static int getMode(String table) {
@@ -46,6 +48,8 @@ public class DBProvider extends ContentProvider {
                 return DB.EXPENSES_TABLE;
             case URI_EXPENSES_VIEW:
                 return DB.EXPENSES_VIEW;
+            case URI_STATISTICS_VIEW:
+                return DB.STATISTICS_VIEW;
             default:
                 throw new IllegalArgumentException("Wrong URI: " + uri);
         }

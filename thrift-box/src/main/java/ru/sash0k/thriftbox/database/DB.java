@@ -21,7 +21,7 @@ public class DB {
      * User: sash0k
      */
     public static class DbOpenHelper extends SQLiteOpenHelper {
-        private static final int DB_VERSION = 2;
+        private static final int DB_VERSION = 3;
         private static final String DB_NAME = "thriftbox.db";
 
         public DbOpenHelper(Context context) {
@@ -43,6 +43,14 @@ public class DB {
                     "strftime('%d.%m.%Y', " + TIMESTAMP + ", 'unixepoch', 'localtime') AS " + DATE +
                     " FROM " + EXPENSES_TABLE;
 
+            final String statistics_view = "CREATE VIEW IF NOT EXISTS [" + STATISTICS_VIEW + "] AS SELECT " +
+                    "round(("+VALUE +"/100)||'.'||("+VALUE +"%100)) AS " + VALUE + ", "
+                    + CATEGORY + ", " + TIMESTAMP + " FROM ("
+                    + "SELECT SUM(" + VALUE + ") AS " + VALUE + ", " + CATEGORY + ", "
+                    + " date(" + TIMESTAMP + ", 'unixepoch', 'start of month') AS " + TIMESTAMP
+                    + " FROM " + EXPENSES_TABLE
+                    + " GROUP BY " + TIMESTAMP + ", " + CATEGORY + ")";
+
             final String insert_trigger = "CREATE TRIGGER IF NOT EXISTS " +
                     "insert_expenses instead of insert on " + EXPENSES_VIEW +
                     " BEGIN INSERT into " + EXPENSES_TABLE + "(" + VALUE + ", " + CATEGORY + ", " + COMMENT + ")" +
@@ -54,6 +62,7 @@ public class DB {
 
             sqLiteDatabase.execSQL(expenses_table);
             sqLiteDatabase.execSQL(expenses_view);
+            sqLiteDatabase.execSQL(statistics_view);
             sqLiteDatabase.execSQL(insert_trigger);
             sqLiteDatabase.execSQL(delete_trigger);
         }
@@ -64,10 +73,14 @@ public class DB {
             sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS insert_expenses");
             sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS delete_expenses");
             sqLiteDatabase.execSQL("DROP VIEW IF EXISTS " + EXPENSES_VIEW);
+            sqLiteDatabase.execSQL("DROP VIEW IF EXISTS " + STATISTICS_VIEW);
             if (oldVersion == 1 && newVersion == 2) {
                 // добавил категорию "Дети", смена номера категории "Путешествия" с 9 на 11
                 sqLiteDatabase.execSQL("UPDATE " + EXPENSES_TABLE + " SET " + CATEGORY + " = 11 WHERE " + CATEGORY + " = 9" );
                 sqLiteDatabase.execSQL("ALTER TABLE " + EXPENSES_TABLE + " ADD COLUMN " + COMMENT + " TEXT");
+            }
+            if (oldVersion == 2 && newVersion == 3) {
+                // создаётся STATISTICS_VIEW, удалять рабочую таблицу не нужно
             }
             else sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + EXPENSES_TABLE);
             onCreate(sqLiteDatabase);
@@ -78,6 +91,7 @@ public class DB {
     // рабочие таблицы
     public static final String EXPENSES_TABLE = "expenses";
     public static final String EXPENSES_VIEW = "expenses_view";
+    public static final String STATISTICS_VIEW = "statistics_view";
 
     // поля таблицы EXPENSES_TABLE
     // BaseColumns._ID
