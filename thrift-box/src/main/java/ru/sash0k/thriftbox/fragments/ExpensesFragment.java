@@ -15,6 +15,8 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget_fixed.CursorTreeAdapter;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import ru.sash0k.thriftbox.AdapterExpenses;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
@@ -61,7 +63,12 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
         int lvIndex = parent.indexOfChild(lv);
         parent.removeViewAt(lvIndex);
         parent.addView(expandableListView, lvIndex, expandableListView.getLayoutParams());
-        
+
+        // Привязываю fab к новому listView
+        lv = (ListView) view.findViewById(android.R.id.list);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.expenses_fab);
+        fab.attachToListView(lv);
+
         return view;
     }
     // ============================================================================
