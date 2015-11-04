@@ -4,6 +4,9 @@
     <color name="primary_dark">#616161</color>
     <color name="primary_light">#F5F5F5</color>
     <color name="accent">#FF5252</color>
+    <color name="accent_dark">#d32f2f</color>
+    <color name="accent_light">#ffcdd2</color>
+
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="icons">#212121</color>
