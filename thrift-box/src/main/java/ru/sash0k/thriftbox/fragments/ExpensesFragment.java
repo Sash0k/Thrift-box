@@ -4,11 +4,15 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget_fixed.CursorTreeAdapter;
 
 import ru.sash0k.thriftbox.AdapterExpenses;
@@ -41,6 +45,24 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
         super.onCreate(savedInstanceState);
         mAdapter = new AdapterExpenses(getActivity());
         setListAdapter(mAdapter);
+    }
+    // ============================================================================
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
+        View expandableListView = super.onCreateView(inflater, container, state);
+
+        CoordinatorLayout view = (CoordinatorLayout) inflater.inflate(R.layout.fragment_expenses, container, false);
+
+        // Удаляю заглушку и добавляю ExpandableListFragment
+        ListView lv = (ListView) view.findViewById(android.R.id.list);
+        ViewGroup parent = (ViewGroup) lv.getParent();
+
+        int lvIndex = parent.indexOfChild(lv);
+        parent.removeViewAt(lvIndex);
+        parent.addView(expandableListView, lvIndex, expandableListView.getLayoutParams());
+        
+        return view;
     }
     // ============================================================================
 
