@@ -2,6 +2,6 @@
 <resources>
     <!-- ToolBar-->
     <dimen name="action_bar_size">48dp</dimen>
-    <dimen name="action_bar_size_x2">112dp</dimen>
+    <dimen name="action_bar_size_x2">96dp</dimen>
 
 </resources>

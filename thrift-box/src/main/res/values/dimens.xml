@@ -1,7 +1,7 @@
 <resources>
     <!-- ToolBar-->
     <dimen name="action_bar_size">56dp</dimen>
-    <dimen name="action_bar_size_x2">128dp</dimen>
+    <dimen name="action_bar_size_x2">112dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
