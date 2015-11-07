@@ -17,10 +17,12 @@
 package android.support.v4.preference;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v4.app.Fragment;
@@ -29,7 +31,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import ru.sash0k.thriftbox.R;
 
@@ -164,8 +170,8 @@ public abstract class PreferenceFragment extends Fragment implements
 	}
     
     /**
-     * Returns the {@link android.preference.PreferenceManager} used by this fragment.
-     * @return The {@link android.preference.PreferenceManager}.
+     * Returns the {@link PreferenceManager} used by this fragment.
+     * @return The {@link PreferenceManager}.
      */
     public PreferenceManager getPreferenceManager() {
         return mPreferenceManager;
@@ -174,7 +180,7 @@ public abstract class PreferenceFragment extends Fragment implements
     /**
      * Sets the root of the preference hierarchy that this fragment is showing.
      *
-     * @param preferenceScreen The root {@link android.preference.PreferenceScreen} of the preference hierarchy.
+     * @param preferenceScreen The root {@link PreferenceScreen} of the preference hierarchy.
      */
     public void setPreferenceScreen(PreferenceScreen preferenceScreen) {
         if (PreferenceManagerCompat.setPreferences(mPreferenceManager, preferenceScreen) && preferenceScreen != null) {
@@ -188,7 +194,7 @@ public abstract class PreferenceFragment extends Fragment implements
     /**
      * Gets the root of the preference hierarchy that this fragment is showing.
      *
-     * @return The {@link android.preference.PreferenceScreen} that is the root of the preference
+     * @return The {@link PreferenceScreen} that is the root of the preference
      *         hierarchy.
      */
     public PreferenceScreen getPreferenceScreen() {
@@ -196,9 +202,9 @@ public abstract class PreferenceFragment extends Fragment implements
     }
     
     /**
-     * Adds preferences from activities that match the given {@link android.content.Intent}.
+     * Adds preferences from activities that match the given {@link Intent}.
      *
-     * @param intent The {@link android.content.Intent} to query activities.
+     * @param intent The {@link Intent} to query activities.
      */
     public void addPreferencesFromIntent(Intent intent) {
         requirePreferenceManager();
@@ -234,11 +240,11 @@ public abstract class PreferenceFragment extends Fragment implements
     }
 	
     /**
-     * Finds a {@link android.preference.Preference} based on its key.
+     * Finds a {@link Preference} based on its key.
      *
      * @param key The key of the preference to retrieve.
-     * @return The {@link android.preference.Preference} with the key, or null.
-     * @see android.preference.PreferenceGroup#findPreference(CharSequence)
+     * @return The {@link Preference} with the key, or null.
+     * @see PreferenceGroup#findPreference(CharSequence)
      */
     public Preference findPreference(CharSequence key) {
         if (mPreferenceManager == null) {
@@ -262,6 +268,35 @@ public abstract class PreferenceFragment extends Fragment implements
         final PreferenceScreen preferenceScreen = getPreferenceScreen();
         if (preferenceScreen != null) {
             preferenceScreen.bind(getListView());
+        }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+            // Workaround android bug for SDK 10 and below - see
+            // https://github.com/android/platform_frameworks_base/commit/2d43d283fc0f22b08f43c6db4da71031168e7f59
+            getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // If the list has headers, subtract them from the index.
+                    if (parent instanceof ListView) {
+                        position -= ((ListView)parent).getHeaderViewsCount();
+                    }
+
+                    Object item = preferenceScreen.getRootAdapter().getItem(position);
+                    if (!(item instanceof Preference))
+                        return;
+
+                    final Preference preference = (Preference)item;
+                    try {
+                        Method performClick = Preference.class.getDeclaredMethod(
+                                "performClick", PreferenceScreen.class);
+                        performClick.setAccessible(true);
+                        performClick.invoke(preference, preferenceScreen);
+                    } catch (InvocationTargetException e) {
+                    } catch (IllegalAccessException e) {
+                    } catch (NoSuchMethodException e) {
+                    }
+                }
+            });
         }
     }
 

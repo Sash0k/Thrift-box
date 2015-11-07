@@ -36,15 +36,15 @@ public class PreferenceManagerCompat {
 	
     /**
      * Interface definition for a callback to be invoked when a
-     * {@link android.preference.Preference} in the hierarchy rooted at this {@link android.preference.PreferenceScreen} is
+     * {@link Preference} in the hierarchy rooted at this {@link PreferenceScreen} is
      * clicked.
      */
     interface OnPreferenceTreeClickListener {
         /**
          * Called when a preference in the tree rooted at this
-         * {@link android.preference.PreferenceScreen} has been clicked.
+         * {@link PreferenceScreen} has been clicked.
          * 
-         * @param preferenceScreen The {@link android.preference.PreferenceScreen} that the
+         * @param preferenceScreen The {@link PreferenceScreen} that the
          *        preference is located in.
          * @param preference The preference that was clicked.
          * @return Whether the click was handled.
@@ -71,8 +71,8 @@ public class PreferenceManagerCompat {
     }
 
     /**
-     * Sets the callback to be invoked when a {@link android.preference.Preference} in the
-     * hierarchy rooted at this {@link android.preference.PreferenceManager} is clicked.
+     * Sets the callback to be invoked when a {@link Preference} in the
+     * hierarchy rooted at this {@link PreferenceManager} is clicked.
      * 
      * @param listener The callback to be invoked.
      */
@@ -104,8 +104,8 @@ public class PreferenceManagerCompat {
 	
 	/**
      * Inflates a preference hierarchy from the preference hierarchies of
-     * {@link android.app.Activity Activities} that match the given {@link android.content.Intent}. An
-     * {@link android.app.Activity} defines its preference hierarchy with meta-data using
+     * {@link Activity Activities} that match the given {@link Intent}. An
+     * {@link Activity} defines its preference hierarchy with meta-data using
      * the {@link #METADATA_KEY_PREFERENCES} key.
      * <p>
      * If a preference hierarchy is given, the new preference hierarchies will
@@ -156,7 +156,7 @@ public class PreferenceManagerCompat {
 	/**
      * Returns the root of the preference hierarchy managed by this class.
      *  
-     * @return The {@link android.preference.PreferenceScreen} object that is at the root of the hierarchy.
+     * @return The {@link PreferenceScreen} object that is at the root of the hierarchy.
      */
 	static PreferenceScreen getPreferenceScreen(PreferenceManager manager) {
 		try {
@@ -170,7 +170,7 @@ public class PreferenceManagerCompat {
 	}
 	
 	/**
-     * Called by the {@link android.preference.PreferenceManager} to dispatch a subactivity result.
+     * Called by the {@link PreferenceManager} to dispatch a subactivity result.
      */
 	static void dispatchActivityResult(PreferenceManager manager, int requestCode, int resultCode, Intent data) {
 		try {
@@ -183,7 +183,7 @@ public class PreferenceManagerCompat {
 	}
 	
 	/**
-     * Called by the {@link android.preference.PreferenceManager} to dispatch the activity stop
+     * Called by the {@link PreferenceManager} to dispatch the activity stop
      * event.
      */
 	static void dispatchActivityStop(PreferenceManager manager) {
@@ -197,7 +197,7 @@ public class PreferenceManagerCompat {
 	}
 	
 	/**
-     * Called by the {@link android.preference.PreferenceManager} to dispatch the activity destroy
+     * Called by the {@link PreferenceManager} to dispatch the activity destroy
      * event.
      */
 	static void dispatchActivityDestroy(PreferenceManager manager) {
@@ -213,8 +213,8 @@ public class PreferenceManagerCompat {
 	/**
      * Sets the root of the preference hierarchy.
      * 
-     * @param preferenceScreen The root {@link android.preference.PreferenceScreen} of the preference hierarchy.
-     * @return Whether the {@link android.preference.PreferenceScreen} given is different than the previous.
+     * @param preferenceScreen The root {@link PreferenceScreen} of the preference hierarchy.
+     * @return Whether the {@link PreferenceScreen} given is different than the previous. 
      */
 	static boolean setPreferences(PreferenceManager manager, PreferenceScreen screen) {
 		try {
