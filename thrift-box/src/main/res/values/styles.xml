@@ -11,9 +11,15 @@
         <item name="windowActionBar">false</item>
         <!-- убрать тень под ToolBar -->
         <item name="android:windowContentOverlay">@null</item>
+        <!-- переопределние цветов в диалоговых фрагментах -->
+        <item name="android:alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
         <!-- ? -->
         <item name="android:navigationBarColor">@color/primary_dark</item>
         <item name="android:statusBarColor">@color/primary_dark</item>
+    </style>
+
+    <style name="AppCompatAlertDialogStyle" parent="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="PadButtonStyle" parent="@android:style/Widget.Material.Light.Button.Borderless">
