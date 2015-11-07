@@ -9,8 +9,9 @@
         <!-- убрать стандартный ActionBar -->
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <!-- ? -->
+        <!-- убрать тень под ToolBar -->
         <item name="android:windowContentOverlay">@null</item>
+        <!-- ? -->
         <item name="android:navigationBarColor">@color/primary_dark</item>
         <item name="android:statusBarColor">@color/primary_dark</item>
     </style>
