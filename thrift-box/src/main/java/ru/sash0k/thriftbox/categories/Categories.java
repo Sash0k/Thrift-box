@@ -2,7 +2,6 @@ package ru.sash0k.thriftbox.categories;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -25,10 +24,17 @@ public class Categories extends LinearLayout {
      * Настройки класса
      */
     // ============================================================================
-    private static final int[] mImages = {R.mipmap.star,
-            R.mipmap.trolley, R.mipmap.filling, R.mipmap.transport, R.mipmap.restaurants,
-            R.mipmap.culture, R.mipmap.shopping, R.mipmap.mobile,
-            R.mipmap.housing, R.mipmap.family, R.mipmap.medicine, R.mipmap.air};
+    private static final int[] IMAGES = {R.drawable.star,
+            R.drawable.cart, R.drawable.gas_station, R.drawable.bus,
+            R.drawable.restaurants, R.drawable.bank, R.drawable.shopping,
+            R.drawable.phone, R.drawable.home, R.drawable.human_child,
+            R.drawable.hospital, R.drawable.airplane};
+
+    private static final int[] SELECTED = {R.drawable.star_white,
+            R.drawable.cart_white, R.drawable.gas_station_white, R.drawable.bus_white,
+            R.drawable.restaurants_white, R.drawable.bank_white, R.drawable.shopping_white,
+            R.drawable.phone_white, R.drawable.home_white, R.drawable.human_child_white,
+            R.drawable.hospital_white, R.drawable.airplane_white};
 
     private final String[] categories;
     private final Context mContext;
@@ -37,7 +43,6 @@ public class Categories extends LinearLayout {
     final static int pic_width = 48;
     final static int pic_height = 48;
     final static int padding = 4;
-    final static int selection_color = Color.rgb(0xFB, 0xD2, 0xB5);
 
     private int getPx(int value) {
         final float scale = getResources().getDisplayMetrics().density;
@@ -94,7 +99,7 @@ public class Categories extends LinearLayout {
      */
     // ============================================================================
     private void build() {
-        for (int i = 0; i < mImages.length; i++)
+        for (int i = 0; i < IMAGES.length; i++)
             addView(getImageView(i));
         setSelected(0);
     }
@@ -115,7 +120,7 @@ public class Categories extends LinearLayout {
         final int px = getPx(padding);
         imageView.setPadding(px, px, px, px);
         imageView.setTag(position);
-        imageView.setImageResource(mImages[position]);
+        imageView.setImageResource(IMAGES[position]);
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,24 +132,29 @@ public class Categories extends LinearLayout {
         imageView.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(mContext, categories[(Integer)view.getTag()], Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, categories[(Integer) view.getTag()], Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
-
         return imageView;
     }
     // ============================================================================
 
     private void unselect(int position) {
-        View v = findViewWithTag(position);
-        if (v != null) v.setBackgroundColor(Color.TRANSPARENT);
+        ImageView v = (ImageView)findViewWithTag(position);
+        if (v != null) {
+            v.setBackgroundResource(0);
+            v.setImageResource(IMAGES[position]);
+        }
     }
     // ============================================================================
 
     private void select(int position) {
-        View v = findViewWithTag(position);
-        if (v != null) v.setBackgroundColor(selection_color);
+        ImageView v = (ImageView)findViewWithTag(position);
+        if (v != null) {
+            v.setBackgroundResource(R.drawable.rounded);
+            v.setImageResource(SELECTED[position]);
+        }
     }
     // ============================================================================
 
