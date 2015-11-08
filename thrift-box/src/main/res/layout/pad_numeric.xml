@@ -80,7 +80,7 @@
 
     <Button
         android:id="@+id/eq"
-        style="@style/PadButtonStyle.Numeric.Equals"
-        android:onClick="onButtonClick" />
+        style="@style/PadButtonStyle.Numeric"
+        android:visibility="invisible"/>
 
 </ru.sash0k.thriftbox.numpad.CalculatorNumericPadLayout>
