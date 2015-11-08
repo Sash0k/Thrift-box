@@ -52,19 +52,20 @@ public class MainActivity extends ActivityHelper {
     }
     // ============================================================================
 
+    /**
+     * Обработчик нажатий экранной клавиатуры
+     */
     public void onButtonClick(View view) {
         switch (view.getId()) {
-            //case R.id.del:
-            //    onDelete();
-            //    break;
-            //case R.id.clr:
-            //    onClear();
-            //    break;
+            case R.id.del:
+                delClick();
+                break;
             default:
                 keyboardClick(((Button) view).getText().toString());
                 break;
         }
     }
+    // ============================================================================
 
     /**
      * Ввод суммы
@@ -73,26 +74,28 @@ public class MainActivity extends ActivityHelper {
         TextView valueTV = (TextView) mViewPager.findViewById(R.id.enter_value);
         if (valueTV != null) {
             String query = valueTV.getText().toString();
-            if (getString(R.string.backspace).equals(digit)) {
-                final int len = query.length() - 1;
-                query = query.substring(0, (len < 0) ? 0 : len);
-                if (len == 0) {
-                    TextView commentTV = (TextView) mViewPager.findViewById(R.id.comment_value);
-                    commentTV.setText("");
-                    commentTV.setVisibility(View.GONE);
-                }
-            } else query += digit;
+            query += digit;
             valueTV.setText(query);
         }
     }
     // ============================================================================
 
     /**
-     * Обработка ввода виртуальной клавиатуры
+     * Удалить введенный символ
      */
-    public void virtualKeyboardClick(View view) {
-        final String digit = view.getTag().toString();
-        keyboardClick(digit);
+    private void delClick() {
+        TextView valueTV = (TextView) mViewPager.findViewById(R.id.enter_value);
+        if (valueTV != null) {
+            String query = valueTV.getText().toString();
+            final int len = query.length() - 1;
+            query = query.substring(0, (len < 0) ? 0 : len);
+            if (len == 0) {
+                TextView commentTV = (TextView) mViewPager.findViewById(R.id.comment_value);
+                commentTV.setText("");
+                commentTV.setVisibility(View.GONE);
+            }
+            valueTV.setText(query);
+        }
     }
     // ============================================================================
 
@@ -136,7 +139,7 @@ public class MainActivity extends ActivityHelper {
                 keyboardClick(getString(R.string.dot));
                 return true;
             case KeyEvent.KEYCODE_DEL:
-                keyboardClick(getString(R.string.backspace));
+                delClick();
                 return true;
             default:
                 return super.onKeyUp(keyCode, keyEvent);

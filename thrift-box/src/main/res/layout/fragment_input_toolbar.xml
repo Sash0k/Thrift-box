@@ -33,11 +33,13 @@
     </LinearLayout>
 
 <ImageButton
+    android:id="@+id/del"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:src="@mipmap/ic_content_backspace"
     android:padding="@dimen/activity_vertical_margin"
-    android:background="@android:color/transparent"/>
+    android:background="@drawable/pad_button_background"
+    android:onClick="onButtonClick"/>
 
 </LinearLayout>
