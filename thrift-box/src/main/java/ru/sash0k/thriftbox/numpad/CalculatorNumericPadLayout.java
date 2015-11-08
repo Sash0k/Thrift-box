@@ -56,6 +56,7 @@ public class CalculatorNumericPadLayout extends CalculatorPadLayout {
                     .build();
         }
 
+        final String dot = getResources().getString(R.string.dot);
         final DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
         final char zeroDigit = symbols.getZeroDigit();
         for (int childIndex = getChildCount() - 1; childIndex >= 0; --childIndex) {
@@ -94,7 +95,7 @@ public class CalculatorNumericPadLayout extends CalculatorPadLayout {
                         b.setText(String.valueOf((char) (zeroDigit + 9)));
                         break;
                     case R.id.dec_point:
-                        b.setText(String.valueOf(symbols.getDecimalSeparator()));
+                        b.setText(dot);
                         break;
                 }
             }
