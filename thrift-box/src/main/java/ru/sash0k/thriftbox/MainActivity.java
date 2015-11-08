@@ -54,9 +54,6 @@ public class MainActivity extends ActivityHelper {
 
     public void onButtonClick(View view) {
         switch (view.getId()) {
-            case R.id.eq:
-                //onEquals();
-                break;
             //case R.id.del:
             //    onDelete();
             //    break;

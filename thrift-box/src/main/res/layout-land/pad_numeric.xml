@@ -20,8 +20,8 @@
     android:id="@+id/pad_numeric"
     style="@style/PadLayoutStyle.Numeric"
     android:background="@android:color/transparent"
-    android:columnCount="3"
-    android:rowCount="4">
+    android:columnCount="4"
+    android:rowCount="3">
 
     <Button
         android:id="@+id/digit_1"
@@ -69,12 +69,12 @@
         android:onClick="onButtonClick" />
 
     <Button
-        android:id="@+id/dec_point"
+        android:id="@+id/digit_0"
         style="@style/PadButtonStyle.Numeric"
         android:onClick="onButtonClick" />
 
     <Button
-        android:id="@+id/digit_0"
+        android:id="@+id/dec_point"
         style="@style/PadButtonStyle.Numeric"
         android:onClick="onButtonClick" />
 
