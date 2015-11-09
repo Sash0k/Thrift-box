@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,20 +51,6 @@ public class InputFragment extends Fragment {
         Toolbar toolbar = (Toolbar) context.findViewById(R.id.toolbar);
 
         valueTV = (TextView) toolbar.findViewById(R.id.enter_value);
-        /*
-        valueTV.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_RIGHT = 2;
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (valueTV.getRight() - valueTV.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        cleanValues();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });*/
         valueTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,15 +85,16 @@ public class InputFragment extends Fragment {
             }
         });
 
-        /*
-        Button enter = (Button) context.findViewById(R.id.enter_button);
-        enter.setOnClickListener(new View.OnClickListener() {
+        // обработка длинного нажатия
+        ImageButton clear = (ImageButton) context.findViewById(R.id.del);
+        clear.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                enterValue(context);
+            public boolean onLongClick(View view) {
+                ((MainActivity)context).clearAnimation(view);
+                return true;
             }
         });
-        */
+
     }
     // ============================================================================
 

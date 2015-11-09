@@ -21,13 +21,14 @@ import ru.sash0k.thriftbox.numpad.AnimatorListenerWrapper;
 import ru.sash0k.thriftbox.numpad.RevealColorView;
 
 /**
+ * Анимации и т.п.
  * Created by sash0k on 27.10.15.
  */
 public abstract class ActivityHelper extends FragmentActivity {
     private static Typeface roubleSupportedTypeface;
 
-    protected ViewGroup mDisplayView;
-    protected RevealColorView revealColorView;
+    private ViewGroup mDisplayView;
+    private RevealColorView revealColorView;
     private Animator mCurrentAnimator;
 
     private void cancelAnimation() {
@@ -42,6 +43,18 @@ public abstract class ActivityHelper extends FragmentActivity {
         roubleSupportedTypeface = Typeface.createFromAsset(getAssets(), Utils.ROUBLE_FONT);
     }
     // ============================================================================
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        mDisplayView = (ViewGroup) findViewById(R.id.activity_main);
+
+        if (!Utils.hasLollipop()) {
+            revealColorView = (RevealColorView)findViewById(R.id.reveal);
+            revealColorView.bringToFront();
+        }
+    }
 
     @Override
     public void onUserInteraction() {
@@ -70,8 +83,17 @@ public abstract class ActivityHelper extends FragmentActivity {
     }
     // ============================================================================
 
+    /**
+     * Анимация при стирании значения
+     */
+    public void reveal(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
+        if (Utils.hasLollipop()) reveal5(sourceView, colorRes, listener);
+        else reveal4(sourceView, colorRes, listener);
+    }
+    // ============================================================================
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public void reveal5(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
+    private void reveal5(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
         final ViewGroupOverlay groupOverlay =
                 (ViewGroupOverlay) getWindow().getDecorView().getOverlay();
 
@@ -130,7 +152,7 @@ public abstract class ActivityHelper extends FragmentActivity {
         animatorSet.start();
     }
 
-    public void reveal4(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
+    private void reveal4(View sourceView, int colorRes, final AnimatorListenerWrapper listener) {
         final int[] clearLocation = new int[2];
         sourceView.getLocationInWindow(clearLocation);
         clearLocation[0] += sourceView.getWidth() / 2;

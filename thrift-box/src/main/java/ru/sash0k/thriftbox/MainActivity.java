@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,6 +15,7 @@ import com.viewpagerindicator.PageIndicator;
 import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
 import ru.sash0k.thriftbox.fragments.SettingsFragment;
+import ru.sash0k.thriftbox.numpad.AnimatorListenerWrapper;
 
 public class MainActivity extends ActivityHelper {
 
@@ -26,22 +26,6 @@ public class MainActivity extends ActivityHelper {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mDisplayView = (ViewGroup) findViewById(R.id.activity_main);
-        /*
-        if (!Utils.hasLollipop()) {
-            mDisplayView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    Utils.removeOnGlobalLayoutListenerCompat(mDisplayView, this);
-                    revealColorView = new RevealColorView(MainActivity.this);
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mDisplayView.getHeight());
-                    revealColorView.setLayoutParams(params);
-                    revealColorView.setBackgroundResource(android.R.color.transparent);
-                    mDisplayView.addView(revealColorView);
-                }
-            });
-        }*/
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -144,6 +128,23 @@ public class MainActivity extends ActivityHelper {
             default:
                 return super.onKeyUp(keyCode, keyEvent);
         }
+    }
+    // ============================================================================
+
+    /**
+     * Анимация при очистке поля ввода
+     */
+    public void clearAnimation(View view) {
+        int color = R.color.primary_light;
+
+        AnimatorListenerWrapper callback = new AnimatorListenerWrapper() {
+            @Override
+            public void onAnimationStart() {
+                TextView valueTV = (TextView) mViewPager.findViewById(R.id.enter_value);
+                if (valueTV != null) valueTV.setText("");
+            }
+        };
+        super.reveal(view, color, callback);
     }
     // ============================================================================
 
