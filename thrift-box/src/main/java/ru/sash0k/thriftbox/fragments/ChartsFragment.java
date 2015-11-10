@@ -6,16 +6,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import ru.sash0k.thriftbox.FinanceFormatter;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
 import ru.sash0k.thriftbox.database.DB;
@@ -26,6 +31,7 @@ import ru.sash0k.thriftbox.database.DB;
  */
 public class ChartsFragment extends Fragment {
     private static final int ANIMATION_TIME = 1500;
+    private static final DateFormat SDF_MONTH = new SimpleDateFormat("LLLL yyyy", new Locale("ru"));
 
     public static ChartsFragment newInstance() {
         ChartsFragment f = new ChartsFragment();
@@ -47,47 +53,35 @@ public class ChartsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.charts_fragment, container, false);
 
-        // горизонтально - отображение статистики за текущий месяц
-        BarChart hBarChart = (BarChart) v.findViewById(R.id.hor_bar_chart);
-        setupBarChartView(hBarChart);
-        hBarChart.setData(generateMonthlyData());
-        hBarChart.animateY(ANIMATION_TIME);
-/*
-        // вертикально - вся статистика по месяцам
+        TextView month = (TextView) v.findViewById(R.id.current_month);
+        long ts = getArguments().getLong(DB.TIMESTAMP);
+        month.setText(SDF_MONTH.format(new Date(ts*1000)));
+
+        // отображение статистики за текущий месяц
         BarChart barChart = (BarChart) v.findViewById(R.id.bar_chart);
         barChart.setDescription("");
-        barChart.setNoDataText(getString(R.string.charts_no_data));
-        //barChart.setData(generateAllData());
+        barChart.setData(generateMonthlyData());
         barChart.getXAxis().disableGridDashedLine();
-        barChart.getAxisRight().setEnabled(false);
-        barChart.getLegend().setEnabled(true);
-        //barChart.getAxisLeft().setValueFormatter(new FinanceFormatter());
 
-        barChart.animateY(ANIMATION_TIME);
-*/
-        return v;
-    }
-    // ============================================================================
+        barChart.getAxisRight().setDrawGridLines(false);
+        barChart.getAxisLeft().setDrawGridLines(false);
+        barChart.getXAxis().setDrawGridLines(false);
 
-    /**
-     * Расходы за месяц - настройка внешнего вида графика
-     */
-    private void setupBarChartView(BarChart barChart) {
-        barChart.setNoDataText(getString(R.string.charts_no_data));
-
-        //setDrawValuesForWholeStack(false); // true
-        barChart.setDrawValueAboveBar(false);
-        barChart.setPinchZoom(false);
-        //barChart.setHighlightEnabled(false);
+        barChart.getAxisRight().removeAllLimitLines();
+        barChart.getLegend().setEnabled(false);
+        barChart.getAxisLeft().setEnabled(false);
+        barChart.getAxisRight().setValueFormatter(new FinanceFormatter());
         barChart.setDrawGridBackground(false);
         barChart.setDrawBarShadow(false);
+        barChart.getXAxis().setEnabled(false); // горизонтальные
+
+        barChart.setPinchZoom(false);
         barChart.setScaleEnabled(false);
         barChart.setDoubleTapToZoomEnabled(false);
 
-        barChart.getLegend().setEnabled(false);
-        barChart.getAxisLeft().setEnabled(false); // сверху
-        barChart.getAxisRight().setEnabled(false); // снизу
-        barChart.getXAxis().setEnabled(false); // горизонтальные
+
+        barChart.animateY(ANIMATION_TIME);
+        return v;
     }
     // ============================================================================
 
@@ -113,50 +107,20 @@ public class ChartsFragment extends Fragment {
         // данные графика
         BarDataSet ds = new BarDataSet(entries, null);
         ds.setDrawValues(true);
-        ds.setColors(ColorTemplate.JOYFUL_COLORS);
-
 
         final int[] THEME_COLORS = {
                 getResources().getColor(R.color.accent),
-                getResources().getColor(R.color.primary)};
+                getResources().getColor(R.color.accent_dark)};
         ds.setColors(THEME_COLORS);
 
 
         // подписи к линиям графика
         BarData d = new BarData(bars, ds);
-        //d.setValueTextColor(Color.WHITE);
+        d.setValueTextColor(getResources().getColor(R.color.primary));
         d.setValueTextSize(12f);
-        //d.setValueFormatter(new FinanceFormatter());
+        d.setValueFormatter(new FinanceFormatter());
         return d;
     }
     // ============================================================================
-
-    /**
-     * Заполнение графика данными (вся статистика)
-     */
-//    private BarData generateAllData() {
-//        final Context ctx = getActivity();
-//
-//        // получение списка месяцев {рассматриваемого периода}
-//        long first_timestamp = DB.getFirstTimestamp(ctx, card);
-//        final long now = System.currentTimeMillis();
-//        List<Long> months = getMonths(first_timestamp, now);
-//
-//        List<BarDataSet> data = new ArrayList<>();
-//        data.add(fillGroup(months, DB.getStatsByType(ctx, card, DB.TYPE_PLUS), 2, R.color.primary));
-//        data.add(fillGroup(months, DB.getStatsByType(ctx, card, DB.TYPE_BUY), 1, R.color.accent));
-//        data.add(fillGroup(months, DB.getStatsByType(ctx, card, DB.TYPE_CASH), 0, R.color.primary_text));
-//
-//        // привести месяцы к читаемому виду
-//        final SimpleDateFormat SDF_MONTH = new SimpleDateFormat("MM.yy");
-//        List<String> months_names = new ArrayList<>(months.size());
-//        for (long month : months) months_names.add(SDF_MONTH.format(month));
-//
-//        BarData d = new BarData(months_names, data);
-//        d.setDrawValues(false);
-//        return d;
-//    }
-    // ============================================================================
-
 
 }
