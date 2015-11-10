@@ -27,6 +27,9 @@
     <string name="week">неделя:</string>
     <string name="month">месяц:</string>
 
+    <!-- Статистика -->
+    <string name="charts_no_data">Нет данных за период</string>
+
     <!-- Настройки -->
     <!-- Strings for possible PreferenceActivity Back/Next buttons -->
     <string name="back_button_label">Back</string>

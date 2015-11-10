@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.sash0k.thriftbox.Utils;
 
 /**
@@ -44,12 +47,12 @@ public class DB {
                     " FROM " + EXPENSES_TABLE;
 
             final String statistics_view = "CREATE VIEW IF NOT EXISTS [" + STATISTICS_VIEW + "] AS SELECT " +
-                    "round(("+VALUE +"/100)||'.'||("+VALUE +"%100)) AS " + VALUE + ", "
-                    + CATEGORY + ", " + TIMESTAMP + " FROM ("
-                    + "SELECT SUM(" + VALUE + ") AS " + VALUE + ", " + CATEGORY + ", "
-                    + " date(" + TIMESTAMP + ", 'unixepoch', 'start of month') AS " + TIMESTAMP
-                    + " FROM " + EXPENSES_TABLE
-                    + " GROUP BY " + TIMESTAMP + ", " + CATEGORY + ")";
+                    "(sum("+VALUE +")*1.0/100) AS " + VALUE + ", "
+                    + CATEGORY + ", " + TIMESTAMP
+                    + " FROM (SELECT " + VALUE + ", " + CATEGORY + ", "
+                        + " strftime('%s', date(" + TIMESTAMP + ", 'unixepoch', 'start of month')) AS " + TIMESTAMP
+                        + " FROM " + EXPENSES_TABLE + ")"
+                    + " GROUP BY " + TIMESTAMP + ", " + CATEGORY;
 
             final String insert_trigger = "CREATE TRIGGER IF NOT EXISTS " +
                     "insert_expenses instead of insert on " + EXPENSES_VIEW +
@@ -161,5 +164,28 @@ public class DB {
         return 0;
     }
     // ====================================================================
+
+    /**
+     * Получение статистики по категориям
+     * @param timestamp - интересующий месяц
+     */
+    public static List<Float> getStatData(Context context, long timestamp, int count) {
+        List<Float> result = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) result.add(0.0f);
+
+        final String[] columns = new String[]{CATEGORY, VALUE};
+        final String where = TIMESTAMP + "=?";
+        Cursor mCursor = context.getContentResolver().query(getUri(STATISTICS_VIEW), columns, where,
+                new String[]{Long.toString(timestamp)}, CATEGORY);
+
+        if (mCursor == null) return result;
+        while (mCursor.moveToNext()) {
+            result.set(mCursor.getInt(0), mCursor.getFloat(1));
+        }
+        mCursor.close();
+        return result;
+    }
+    // ====================================================================
+
 
 }

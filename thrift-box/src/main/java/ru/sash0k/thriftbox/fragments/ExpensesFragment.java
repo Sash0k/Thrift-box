@@ -1,5 +1,6 @@
 package ru.sash0k.thriftbox.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 import ru.sash0k.thriftbox.AdapterExpenses;
 import ru.sash0k.thriftbox.R;
+import ru.sash0k.thriftbox.StatisticsActivity;
 import ru.sash0k.thriftbox.Utils;
 import ru.sash0k.thriftbox.database.DB;
 
@@ -67,6 +69,14 @@ public class ExpensesFragment extends ExpandableListFragment implements LoaderMa
         // Привязываю fab к новому listView
         lv = (ListView) view.findViewById(android.R.id.list);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.expenses_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent();
+                i.setClass(getContext(), StatisticsActivity.class);
+                startActivity(i);
+            }
+        });
         fab.attachToListView(lv);
 
         return view;
