@@ -2,6 +2,7 @@ package ru.sash0k.thriftbox.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -20,9 +22,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import ru.sash0k.thriftbox.FinanceFormatter;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
+import ru.sash0k.thriftbox.charting.FinanceFormatter;
+import ru.sash0k.thriftbox.charting.MyMarkerView;
 import ru.sash0k.thriftbox.database.DB;
 
 /**
@@ -55,30 +58,50 @@ public class ChartsFragment extends Fragment {
 
         TextView month = (TextView) v.findViewById(R.id.current_month);
         long ts = getArguments().getLong(DB.TIMESTAMP);
-        month.setText(SDF_MONTH.format(new Date(ts*1000)));
+        month.setText(SDF_MONTH.format(new Date(ts * 1000)));
 
         // отображение статистики за текущий месяц
         BarChart barChart = (BarChart) v.findViewById(R.id.bar_chart);
         barChart.setDescription("");
-        barChart.setData(generateMonthlyData());
-        barChart.getXAxis().disableGridDashedLine();
 
-        barChart.getAxisRight().setDrawGridLines(false);
-        barChart.getAxisLeft().setDrawGridLines(false);
-        barChart.getXAxis().setDrawGridLines(false);
+        Paint mInfoPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mInfoPaint.setColor(getResources().getColor(R.color.primary));
+        mInfoPaint.setTextAlign(Paint.Align.CENTER);
+        mInfoPaint.setTextSize(com.github.mikephil.charting.utils.Utils.convertDpToPixel(16f));
+        barChart.setPaint(mInfoPaint, Chart.PAINT_INFO);
+        barChart.setNoDataText(getString(R.string.charts_no_data));
 
-        barChart.getAxisRight().removeAllLimitLines();
-        barChart.getLegend().setEnabled(false);
-        barChart.getAxisLeft().setEnabled(false);
-        barChart.getAxisRight().setValueFormatter(new FinanceFormatter());
-        barChart.setDrawGridBackground(false);
         barChart.setDrawBarShadow(false);
-        barChart.getXAxis().setEnabled(false); // горизонтальные
+        barChart.setDrawGridBackground(false);
+        barChart.setDrawValueAboveBar(false);
 
         barChart.setPinchZoom(false);
         barChart.setScaleEnabled(false);
         barChart.setDoubleTapToZoomEnabled(false);
 
+        barChart.getXAxis().disableGridDashedLine();
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getXAxis().setEnabled(false);
+
+        barChart.getAxisLeft().setDrawGridLines(false);
+        barChart.getAxisLeft().setEnabled(false);
+
+        barChart.getAxisRight().setDrawGridLines(false);
+        barChart.getAxisRight().removeAllLimitLines();
+        barChart.getAxisRight().setValueFormatter(new FinanceFormatter());
+
+        barChart.getLegend().setEnabled(false);
+        barChart.setData(generateMonthlyData());
+        // если данных нет, не показывать ось
+        barChart.getAxisRight().setEnabled(!barChart.isEmpty());
+
+        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view);
+        mv.setX(mv.getMeasuredWidth());
+        barChart.setMarkerView(mv);
+
+
+        Utils.log("getYMin = " + barChart.getBarData().getYMin());
+        Utils.log("getYMax = " + barChart.getBarData().getYMax());
 
         barChart.animateY(ANIMATION_TIME);
         return v;
@@ -99,25 +122,27 @@ public class ChartsFragment extends Fragment {
         List<Float> stats = DB.getStatData(ctx, month, bars.length); // Статистика за текущий месяц
 
         final int count = stats.size();
-        ArrayList<BarEntry> entries = new ArrayList<>(count);
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        final ArrayList<String> usedBars = new ArrayList<>();
+        int j = 0;
         for (int i = 0; i < count; i++) {
-            entries.add(new BarEntry(stats.get(i), i, bars[i]));
+            float value = stats.get(i);
+            if (value > 0f) {
+                usedBars.add(bars[i]);
+                entries.add(new BarEntry(value, j, bars[i]));
+                j++;
+            }
         }
 
         // данные графика
         BarDataSet ds = new BarDataSet(entries, null);
         ds.setDrawValues(true);
-
-        final int[] THEME_COLORS = {
-                getResources().getColor(R.color.accent),
-                getResources().getColor(R.color.accent_dark)};
-        ds.setColors(THEME_COLORS);
-
+        ds.setColor(getResources().getColor(R.color.accent));
 
         // подписи к линиям графика
-        BarData d = new BarData(bars, ds);
-        d.setValueTextColor(getResources().getColor(R.color.primary));
-        d.setValueTextSize(12f);
+        BarData d = new BarData(usedBars, ds);
+        d.setValueTextColor(getResources().getColor(R.color.primary_text));
+        d.setValueTextSize(14f);
         d.setValueFormatter(new FinanceFormatter());
         return d;
     }

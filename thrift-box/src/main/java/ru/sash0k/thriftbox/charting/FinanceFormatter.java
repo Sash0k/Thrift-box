@@ -1,4 +1,4 @@
-package ru.sash0k.thriftbox;
+package ru.sash0k.thriftbox.charting;
 
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -9,8 +9,10 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import ru.sash0k.thriftbox.Utils;
+
 public class FinanceFormatter implements ValueFormatter, YAxisValueFormatter {
-    private static final String ROUBLE = Utils.hasLollipop() ? String.valueOf(Utils.ROUBLE) : "р.";
+    public static final char ROUBLE = Utils.hasLollipop() ? Utils.ROUBLE : 'р';
     //private final NumberFormat mFormat;
     private final NumberFormat mAxisFormat;
     
