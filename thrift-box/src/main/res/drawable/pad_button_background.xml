@@ -3,20 +3,9 @@
     android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
     <item android:state_pressed="true">
-        <shape android:shape="oval">
+        <shape >
             <solid android:color="@color/accent_light"/>
-        </shape>
-    </item>
-
-    <item android:state_focused="true" >
-        <shape android:shape="oval">
-            <solid android:color="@color/accent_light"/>
-        </shape>
-    </item>
-
-    <item android:state_hovered="true" >
-        <shape android:shape="oval">
-            <solid android:color="@color/accent_light"/>
+            <corners android:radius="@dimen/activity_horizontal_margin"/>
         </shape>
     </item>
 
