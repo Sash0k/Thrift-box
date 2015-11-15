@@ -8,14 +8,35 @@ android {
         applicationId "ru.sash0k.thriftbox"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.0"
+        versionCode 5
+        versionName "2.0"
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    signingConfigs {
+        release {
+            try {
+                storeFile file("sash0k-keystore.jks")
+                storePassword KEYSTORE_PASSWORD
+                keyAlias "thrift-box"
+                keyPassword KEY_PASSWORD
+            }
+            catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
             zipAlignEnabled true
         }
     }
