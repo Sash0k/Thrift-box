@@ -74,7 +74,6 @@ public class AdapterExpenses extends CursorTreeAdapter {
         viewHolder.value.setText(((MainActivity)context).parseRouble(Utils.formatValue(cursor.getLong(viewHolder.value_col)) + Utils.ROUBLE));
         final String comment = cursor.getString(viewHolder.comment_col);
         viewHolder.comment.setText(comment);
-        viewHolder.comment.setVisibility(comment == null ? View.GONE : View.VISIBLE);
     }
     // ============================================================================
 

@@ -18,6 +18,7 @@
 
     <string name="enter_button">Внести</string>
     <string name="enter_value_hint">сумма…</string>
+    <string name="enter_comment_hint">комментарий</string>
     <string name="enter_value_done">Внесено</string>
     <string name="enter_value_invalid">Введено некорректное значение. Запись не может быть добавлена</string>
     <string name="list_empty">Список пуст</string>

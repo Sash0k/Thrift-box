@@ -73,11 +73,6 @@ public class MainActivity extends ActivityHelper {
             String query = valueTV.getText().toString();
             final int len = query.length() - 1;
             query = query.substring(0, (len < 0) ? 0 : len);
-            if (len == 0) {
-                TextView commentTV = (TextView) mViewPager.findViewById(R.id.comment_value);
-                commentTV.setText("");
-                commentTV.setVisibility(View.GONE);
-            }
             valueTV.setText(query);
         }
     }
@@ -142,6 +137,8 @@ public class MainActivity extends ActivityHelper {
             public void onAnimationStart() {
                 TextView valueTV = (TextView) mViewPager.findViewById(R.id.enter_value);
                 if (valueTV != null) valueTV.setText("");
+                TextView commentTV = (TextView) mViewPager.findViewById(R.id.comment_value);
+                if (commentTV != null) commentTV.setText("");
             }
         };
         super.reveal(view, color, callback);

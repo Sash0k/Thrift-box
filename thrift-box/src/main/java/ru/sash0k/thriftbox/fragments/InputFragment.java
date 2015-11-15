@@ -74,7 +74,6 @@ public class InputFragment extends Fragment {
             valueTV.setText(state.getCharSequence(DB.VALUE));
             CharSequence comment = state.getCharSequence(DB.COMMENT);
             commentTV.setText(comment);
-            commentTV.setVisibility(comment.length() == 0 ? View.GONE : View.VISIBLE);
         }
 
         FloatingActionButton fab = (FloatingActionButton) context.findViewById(R.id.fab);
@@ -132,9 +131,8 @@ public class InputFragment extends Fragment {
             if (resultCode == DialogInterface.BUTTON_POSITIVE) {
                 final String comment = data.getStringExtra(CommentDialog.TAG);
                 if ((comment != null) && (!comment.isEmpty())) {
-                    commentTV.setVisibility(View.VISIBLE);
                     commentTV.setText(comment);
-                }
+                } else commentTV.setText("");
             }
         }
     }
@@ -158,7 +156,6 @@ public class InputFragment extends Fragment {
     private void cleanValues() {
         valueTV.setText("");
         commentTV.setText("");
-        commentTV.setVisibility(View.GONE);
     }
     // ============================================================================
 
