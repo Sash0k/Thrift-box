@@ -32,6 +32,7 @@
                 android:id="@+id/ruble_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:padding="3dp" />
 
         </LinearLayout>

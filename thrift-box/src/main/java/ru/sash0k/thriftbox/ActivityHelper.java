@@ -66,19 +66,22 @@ public abstract class ActivityHelper extends FragmentActivity {
     }
 
     /**
-     * Отображение символа рубля из кастомного шрифта
+     * Отображение символа рубля из кастомного шрифта для 4.x
      */
     public SpannableStringBuilder parseRouble(CharSequence value) {
-        if (roubleSupportedTypeface == null) return null;
+        if (Utils.hasLollipop()) return new SpannableStringBuilder(value);
         else {
-            SpannableStringBuilder resultSpan = new SpannableStringBuilder(value);
-            for (int i = 0; i < resultSpan.length(); i++) {
-                if (resultSpan.charAt(i) == Utils.ROUBLE) {
-                    TypefaceSpan2 roubleTypefaceSpan = new TypefaceSpan2(roubleSupportedTypeface);
-                    resultSpan.setSpan(roubleTypefaceSpan, i, i + 1, 0);
+            if (roubleSupportedTypeface == null) return null;
+            else {
+                SpannableStringBuilder resultSpan = new SpannableStringBuilder(value);
+                for (int i = 0; i < resultSpan.length(); i++) {
+                    if (resultSpan.charAt(i) == Utils.ROUBLE) {
+                        TypefaceSpan2 roubleTypefaceSpan = new TypefaceSpan2(roubleSupportedTypeface);
+                        resultSpan.setSpan(roubleTypefaceSpan, i, i + 1, 0);
+                    }
                 }
+                return resultSpan;
             }
-            return resultSpan;
         }
     }
     // ============================================================================
