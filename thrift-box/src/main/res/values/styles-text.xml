@@ -4,7 +4,6 @@
     <!-- Общий предок текстовых стилей-->
     <style name="text_generic">
         <item name="android:includeFontPadding">false</item>
-        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <!-- Текст в приложении -->
@@ -35,7 +34,6 @@
 
     <style name="widget_text_today" parent="widget_text">
         <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:paddingRight">0dp</item>
     </style>
 
