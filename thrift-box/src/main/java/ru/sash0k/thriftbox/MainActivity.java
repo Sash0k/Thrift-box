@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.viewpagerindicator.PageIndicator;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import ru.sash0k.thriftbox.fragments.ExpensesFragment;
 import ru.sash0k.thriftbox.fragments.InputFragment;
@@ -31,7 +31,8 @@ public class MainActivity extends ActivityHelper {
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        PageIndicator indicator = (PageIndicator) findViewById(R.id.indicator);
+        CirclePageIndicator indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        indicator.setFillColor(getResources().getColor(R.color.accent));
         indicator.setViewPager(mViewPager);
     }
     // ============================================================================
