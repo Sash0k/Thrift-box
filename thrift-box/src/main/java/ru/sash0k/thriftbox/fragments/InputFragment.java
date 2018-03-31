@@ -103,7 +103,7 @@ public class InputFragment extends Fragment {
             final int value = Utils.parseCurrency(textValue);
             if (value > 0) {
                 final String comment = commentTV.getText().toString();
-                DB.insertItem(context, value, categories.getSelected(), comment);
+                new DB(context).insertItem(context, value, categories.getSelected(), comment);
                 Toast.makeText(context, ((MainActivity)context).parseRouble(getString(R.string.enter_value_done) + " " + textValue + Utils.ROUBLE + " " + comment), Toast.LENGTH_SHORT).show();
                 cleanValues();
                 Utils.updateWidgets(context);

@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 import android.support.v4.app.DialogFragment;
 
 import ru.sash0k.thriftbox.ActivityHelper;
-import ru.sash0k.thriftbox.MainActivity;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.Utils;
 import ru.sash0k.thriftbox.database.DB;
@@ -53,7 +52,7 @@ public class DeleteConfirmDialog extends DialogFragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        DB.deleteItem(context, id);
+                        new DB(context).deleteItem(context, id);
                         Utils.updateWidgets(context);
                     }
                 })
