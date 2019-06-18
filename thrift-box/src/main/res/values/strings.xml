@@ -32,12 +32,6 @@
     <string name="charts_no_data">Нет данных за период</string>
 
     <!-- Настройки -->
-    <!-- Strings for possible PreferenceActivity Back/Next buttons -->
-    <string name="back_button_label">Back</string>
-    <string name="next_button_label">Next</string>
-    <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
-    <string name="skip_button_label">Skip</string>
-
     <string name="about">О приложении</string>
     <string name="version">версия</string>
     <string name="license_info">GNU GPLv3. Распространяется свободно.</string>

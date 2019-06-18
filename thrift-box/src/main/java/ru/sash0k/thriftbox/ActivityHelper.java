@@ -5,11 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -24,7 +24,7 @@ import ru.sash0k.thriftbox.numpad.RevealColorView;
  * Анимации и т.п.
  * Created by sash0k on 27.10.15.
  */
-public abstract class ActivityHelper extends FragmentActivity {
+public abstract class ActivityHelper extends Activity {
     private static Typeface roubleSupportedTypeface;
 
     private ViewGroup mDisplayView;
