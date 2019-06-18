@@ -16,5 +16,4 @@
 #   public *;
 #}
 
--dontwarn com.viewpagerindicator.**
 -keep class com.github.mikephil.charting.animation.ChartAnimator { *; }
