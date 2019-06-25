@@ -4,6 +4,13 @@
     android:layout_height="wrap_content"
     android:padding="5dp">
 
+    <de.nenick.expandablerecyclerview.indicator.ExpandableItemIndicator
+        android:id="@+id/expense_indicator"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
     <TextView
         android:id="@+id/expense_date"
         style="@style/app_text"

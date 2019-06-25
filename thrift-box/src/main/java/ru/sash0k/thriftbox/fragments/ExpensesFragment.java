@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import android.widget.TextView;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.StatisticsActivity;
 import ru.sash0k.thriftbox.database.DB;
-import ru.sash0k.thriftbox.expenses.ExpensesAdapter;
+import ru.sash0k.thriftbox.ExpensesAdapter;
 
 /**
  * Список расходов
@@ -50,7 +49,7 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new ExpensesAdapter(getActivity(), null);
+        mAdapter = new ExpensesAdapter(getActivity());
     }
     // ============================================================================
 
@@ -65,7 +64,6 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
 
             recyclerView = rootView.findViewById(R.id.expenses_recycler);
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.addItemDecoration(new DividerItemDecoration(context, layoutManager.getOrientation()));
             recyclerView.setAdapter(mAdapter);
 
             FloatingActionButton fab = rootView.findViewById(R.id.expenses_fab);
@@ -133,9 +131,9 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mAdapter.swapCursor(data);
+        mAdapter.setGroupCursor(data);
 
-        if (mAdapter.getItemCount() == 0)
+        if (mAdapter.getGroupCount() == 0)
         {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
@@ -150,7 +148,7 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mAdapter.swapCursor(null);
+        mAdapter.setGroupCursor(null);
     }
     // ============================================================================
 }
