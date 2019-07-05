@@ -19,7 +19,7 @@ class NoAnimationImpl extends ExpandableItemIndicator.Impl {
 
     @Override
     public void setExpandedState(boolean isExpanded, boolean animate) {
-        int resId = (isExpanded) ? android.R.drawable.arrow_up_float : android.R.drawable.arrow_down_float;
+        int resId = (isExpanded) ? R.mipmap.erv__ic_action_navigation_collapse : R.mipmap.erv__ic_action_navigation_expand;
         mImageView.setImageResource(resId);
     }
 }

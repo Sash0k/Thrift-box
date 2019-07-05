@@ -8,7 +8,6 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
-        android:scaleType="center"
-        android:src="@drawable/erv__ic_expand_less_to_expand_more"/>
+        android:scaleType="center"/>
 
 </merge>
