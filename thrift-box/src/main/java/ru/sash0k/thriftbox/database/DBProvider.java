@@ -19,7 +19,7 @@ import ru.sash0k.thriftbox.BuildConfig;
 public class DBProvider extends ContentProvider {
     public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".database.DBProvider";
 
-    private DB databaseHandler;
+    private DB.DbOpenHelper databaseHandler;
     private SQLiteDatabase database;
 
     // Таблицы
@@ -57,7 +57,7 @@ public class DBProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        databaseHandler = new DB(getContext());
+        databaseHandler = new DB.DbOpenHelper(getContext());
         return false;
     }
 
