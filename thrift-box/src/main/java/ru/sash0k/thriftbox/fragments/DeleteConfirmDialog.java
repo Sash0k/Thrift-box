@@ -52,7 +52,7 @@ public class DeleteConfirmDialog extends DialogFragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        new DB(context).deleteItem(context, id);
+                        DB.INSTANCE.deleteItem(id);
                         Utils.updateWidgets(context);
                     }
                 })

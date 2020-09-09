@@ -1,6 +1,7 @@
 package ru.sash0k.thriftbox.fragments;
 
 import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -123,9 +124,9 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            final String[] columns = {BaseColumns._ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
-            final String selection = DB.DATE + " = " + DB.DATE + " GROUP BY (" + DB.DATE + ")"; // hack: GROUP BY
-            return new CursorLoader(getActivity(), DB.getUri(DB.EXPENSES_VIEW), columns, selection, null, DB.TIMESTAMP + " DESC");
+        final String[] columns = {BaseColumns._ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
+        final String selection = DB.DATE + " = " + DB.DATE + " GROUP BY (" + DB.DATE + ")"; // hack: GROUP BY
+        return new DataLoader(getActivity(), DB.EXPENSES_VIEW, columns, selection, DB.TIMESTAMP + " DESC");
     }
     // ============================================================================
 
@@ -133,13 +134,10 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.setGroupCursor(data);
 
-        if (mAdapter.getGroupCount() == 0)
-        {
+        if (mAdapter.getGroupCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
@@ -151,4 +149,24 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
         mAdapter.setGroupCursor(null);
     }
     // ============================================================================
+
+    static class DataLoader extends AsyncTaskLoader<Cursor> {
+        private final String table;
+        private final String[] columns;
+        private final String selection;
+        private final String order;
+
+        public DataLoader(Context context, String table, String[] columns, String selection, String order) {
+            super(context);
+            this.table = table;
+            this.columns = columns;
+            this.selection = selection;
+            this.order = order;
+        }
+
+        @Override
+        public Cursor loadInBackground() {
+            return DB.INSTANCE.getReadableDatabase().query(table, columns, selection, null, null, null, order);
+        }
+    }
 }

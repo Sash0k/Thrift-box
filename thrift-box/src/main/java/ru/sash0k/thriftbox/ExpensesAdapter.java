@@ -1,6 +1,6 @@
 package ru.sash0k.thriftbox;
 
-import android.content.AsyncQueryHandler;
+import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -16,8 +16,18 @@ import de.nenick.expandablerecyclerview.indicator.ExpandableItemIndicator;
 import ru.sash0k.thriftbox.database.DB;
 
 public class ExpensesAdapter extends ExpandableCursorTreeAdapter<ExpensesAdapter.GroupHolder, ExpensesAdapter.DetailsHolder> {
+    private final Context mContext;
     private final String[] categories;
-    private final QueryHandler mQueryHandler;
+
+    public ExpensesAdapter(Context context) {
+        super(context);
+        this.mContext = context;
+        this.categories = context.getResources().getStringArray(R.array.categories);
+        //this.mQueryHandler = new QueryHandler(context, this);
+    }
+
+    //private final QueryHandler mQueryHandler;
+
 
     static class GroupHolder extends ExpandableCursorTreeAdapter.ListItemHolder<Cursor> {
         private final ExpandableItemIndicator indicator;
@@ -79,19 +89,31 @@ public class ExpensesAdapter extends ExpandableCursorTreeAdapter<ExpensesAdapter
         }
     }
 
-    public ExpensesAdapter(Context context) {
-        super(context);
-        this.categories = context.getResources().getStringArray(R.array.categories);
-        this.mQueryHandler = new QueryHandler(context, this);
+    static class DataLoader extends AsyncTaskLoader<Cursor> {
+        private final String table;
+        private final String[] args;
+        private final String selection;
+        private final String order;
+
+        public DataLoader(Context context, String table,String selection,  String[] args, String order) {
+            super(context);
+            this.table = table;
+            this.selection = selection;
+            this.args = args;
+            this.order = order;
+        }
+
+        @Override
+        public Cursor loadInBackground() {
+            return DB.INSTANCE.getReadableDatabase().query(table, null, selection, args, null, null, order);
+        }
     }
 
     @Override
     protected Cursor getChildrenCursor(Cursor groupCursor) {
         final String date = groupCursor.getString(groupCursor.getColumnIndex(DB.DATE));
-        mQueryHandler.startQuery(1, groupCursor.getPosition(),
-                DB.getUri(DB.EXPENSES_VIEW), null, DB.DATE + "=?", new String[]{date}, DB.TIMESTAMP + " DESC");
 
-        return null;
+        return new DataLoader(mContext, DB.EXPENSES_VIEW, DB.DATE + "=?", new String[]{date}, DB.TIMESTAMP + " DESC").loadInBackground();
     }
 
     @Override
@@ -108,28 +130,28 @@ public class ExpensesAdapter extends ExpandableCursorTreeAdapter<ExpensesAdapter
         return new DetailsHolder(view, categories);
     }
 
-    private static final class QueryHandler extends AsyncQueryHandler {
-        private ExpandableCursorTreeAdapter mAdapter;
-
-        QueryHandler(Context context, ExpandableCursorTreeAdapter adapter) {
-            super(context.getContentResolver());
-            this.mAdapter = adapter;
-        }
-
-        @Override
-        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-            if (token == 1) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    Utils.log("setChildrenCursor count:" + cursor.getCount());
-                    int groupPosition = (Integer) cookie;
-                    mAdapter.setChildrenCursor(groupPosition, cursor);
-                }
-            } else {
-                if (cursor != null && cursor.moveToFirst()) {
-                    Utils.log("setGroupCursor count:" + cursor.getCount());
-                    mAdapter.setGroupCursor(cursor);
-                }
-            }
-        }
-    }
+//    private static final class QueryHandler extends AsyncQueryHandler {
+//        private ExpandableCursorTreeAdapter mAdapter;
+//
+//        QueryHandler(Context context, ExpandableCursorTreeAdapter adapter) {
+//            super(context.getContentResolver());
+//            this.mAdapter = adapter;
+//        }
+//
+//        @Override
+//        protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+//            if (token == 1) {
+//                if (cursor != null && cursor.moveToFirst()) {
+//                    Utils.log("setChildrenCursor count:" + cursor.getCount());
+//                    int groupPosition = (Integer) cookie;
+//                    mAdapter.setChildrenCursor(groupPosition, cursor);
+//                }
+//            } else {
+//                if (cursor != null && cursor.moveToFirst()) {
+//                    Utils.log("setGroupCursor count:" + cursor.getCount());
+//                    mAdapter.setGroupCursor(cursor);
+//                }
+//            }
+//        }
+//    }
 }

@@ -4,35 +4,24 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.net.Uri
 import android.provider.BaseColumns
+import ru.sash0k.thriftbox.App
 import ru.sash0k.thriftbox.Utils
-import java.util.ArrayList
+import java.util.*
 
-class DB(context: Context)
-    : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
+object DB : SQLiteOpenHelper(App.instance, "thriftbox.db", null, 3) {
 
-    companion object {
-        const val DB_NAME = "thriftbox.db"
-        const val DB_VERSION = 3
+    // рабочие таблицы|вьюхи
+    const val EXPENSES_TABLE = "expenses"
+    const val EXPENSES_VIEW = "expenses_view"
+    const val STATISTICS_VIEW = "statistics_view"
 
-        // рабочие таблицы|вьюхи
-        const val EXPENSES_TABLE = "expenses"
-        const val EXPENSES_VIEW = "expenses_view"
-        const val STATISTICS_VIEW = "statistics_view"
-
-        // поля
-        const val VALUE = "value"
-        const val CATEGORY = "category"
-        const val COMMENT = "comment"
-        const val TIMESTAMP = "timestamp"
-        const val DATE = "date"
-
-        @JvmStatic
-        fun getUri(table: String): Uri {
-            return Uri.parse("content://" + DBProvider.AUTHORITY + "/" + table)
-        }
-    }
+    // поля
+    const val VALUE = "value"
+    const val CATEGORY = "category"
+    const val COMMENT = "comment"
+    const val TIMESTAMP = "timestamp"
+    const val DATE = "date"
 
     override fun onCreate(db: SQLiteDatabase) {
         val doExpensesTable = ("CREATE TABLE IF NOT EXISTS $EXPENSES_TABLE" +
@@ -96,30 +85,32 @@ class DB(context: Context)
     /**
      * Добавить запись в таблицу
      */
-    fun insertItem(context: Context, value: Int, category: Int, comment: String?) {
+    fun insertItem(value: Int, category: Int, comment: String?) : Long {
         val values = ContentValues()
         values.put(VALUE, value)
         values.put(CATEGORY, category)
         if (!comment.isNullOrBlank()) values.put(COMMENT, comment)
 
-        context.contentResolver.insert(getUri(EXPENSES_VIEW), values)
+        return writableDatabase.insert(EXPENSES_VIEW, null, values)
     }
 
     /**
      * Удалить запись из таблицы
      */
-    fun deleteItem(context: Context, id: Int) {
-        context.contentResolver.delete(getUri(EXPENSES_VIEW), BaseColumns._ID + "=?", arrayOf(Integer.toString(id)))
+    fun deleteItem(id: Int) : Int {
+        return writableDatabase.delete(EXPENSES_VIEW, "${BaseColumns._ID}=?", arrayOf(id.toString()))
     }
 
     /**
      * Получить расход за сегодняшний день
      */
     fun getExpense(context: Context, timestamp: Long): Long {
-        val mCursor = context.contentResolver.query(getUri(EXPENSES_TABLE)
+        val mCursor = readableDatabase.query(EXPENSES_TABLE
                 , arrayOf("SUM($VALUE)")
                 , "$TIMESTAMP>=?"
-                , arrayOf(java.lang.Long.toString(timestamp))
+                , arrayOf(timestamp.toString())
+                , null
+                , null
                 , null)
 
         if (mCursor != null) {
@@ -137,14 +128,16 @@ class DB(context: Context)
      * Получение статистики по категориям
      * @param timestamp - интересующий месяц
      */
-    fun getStatData(context: Context, timestamp: Long, count: Int): List<Float> {
+    fun getStatData(timestamp: Long, count: Int): List<Float> {
         val result = ArrayList<Float>(count)
         for (i in 0 until count) result.add(0.0f)
 
-        val mCursor = context.contentResolver.query(getUri(STATISTICS_VIEW)
+        val mCursor = readableDatabase.query(STATISTICS_VIEW
                 , arrayOf(CATEGORY, VALUE)
-                , "$TIMESTAMP=?"
-                , arrayOf(java.lang.Long.toString(timestamp))
+                , "$TIMESTAMP>=?"
+                , arrayOf(timestamp.toString())
+                , null
+                , null
                 , CATEGORY)
                 ?: return result
 

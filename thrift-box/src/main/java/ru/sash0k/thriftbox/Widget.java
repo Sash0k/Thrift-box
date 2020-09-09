@@ -82,10 +82,9 @@ public class Widget extends AppWidgetProvider {
         RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget);
 
         long[] timestamps = Utils.getTimestamps();
-        DB db = new DB(context);
-        final String today = Utils.formatValue(db.getExpense(context, timestamps[0]));
-        final String week = Utils.formatValue(db.getExpense(context, timestamps[1]));
-        final String month = Utils.formatValue(db.getExpense(context, timestamps[2]));
+        final String today = Utils.formatValue(DB.INSTANCE.getExpense(context, timestamps[0]));
+        final String week = Utils.formatValue(DB.INSTANCE.getExpense(context, timestamps[1]));
+        final String month = Utils.formatValue(DB.INSTANCE.getExpense(context, timestamps[2]));
 
         // настройка прозрачности виджета
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
