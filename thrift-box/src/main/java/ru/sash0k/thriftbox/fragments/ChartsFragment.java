@@ -119,7 +119,7 @@ public class ChartsFragment extends Fragment {
 
         // получение данных
         final long month = getArguments().getLong(DB.TIMESTAMP);
-        List<Float> stats = DB.getStatData(ctx, month, bars.length); // Статистика за текущий месяц
+        List<Float> stats = new DB(ctx).getStatData(ctx, month, bars.length); // Статистика за текущий месяц
 
         final int count = stats.size();
         ArrayList<BarEntry> entries = new ArrayList<>();
