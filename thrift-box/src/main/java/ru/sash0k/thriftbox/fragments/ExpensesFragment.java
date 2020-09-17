@@ -16,16 +16,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.sash0k.thriftbox.ExpensesAdapter;
 import ru.sash0k.thriftbox.R;
 import ru.sash0k.thriftbox.StatisticsActivity;
 import ru.sash0k.thriftbox.database.DB;
-import ru.sash0k.thriftbox.ExpensesAdapter;
+import ru.sash0k.thriftbox.ExpensesDetail;
+import ru.sash0k.thriftbox.ExpensesGroup;
 
 /**
  * Список расходов
  * Created by sash0k on 28.04.14.
  */
-public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<ExpensesGroup>>, ExpensesAdapter.ChildClickListener {
     private static final String TAG = "ExpensesFragment";
     private static final int LOADER_ID = -1;
 
@@ -47,8 +52,6 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAdapter = new ExpensesAdapter(getActivity());
     }
     // ============================================================================
 
@@ -63,7 +66,6 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
 
             recyclerView = rootView.findViewById(R.id.expenses_recycler);
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(mAdapter);
 
             FloatingActionButton fab = rootView.findViewById(R.id.expenses_fab);
             fab.setOnClickListener(view -> {
@@ -99,40 +101,29 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
     public void onActivityCreated(Bundle savedState) {
         super.onActivityCreated(savedState);
         setHasOptionsMenu(false);
-        getLoaderManager().initLoader(LOADER_ID, null, this);
-    }
-    // ============================================================================
-
-//    @Override
-//    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-//        super.onChildClick(parent, v, groupPosition, childPosition, id);
-//        Cursor cursor = ((AdapterExpenses) getListAdapter()).getChild(groupPosition, childPosition);
-//        final int row_id = cursor.getInt(cursor.getColumnIndex(DB.ID));
-//        final String date = cursor.getString(cursor.getColumnIndex(DB.DATE));
-//        final int category = cursor.getInt(cursor.getColumnIndex(DB.CATEGORY));
-//        final long value = cursor.getLong(cursor.getColumnIndex(DB.VALUE));
-//        //cursor.close(); TODO?
-//        Utils.log("onChildClick id = " + row_id);
-//
-//        DeleteConfirmDialog dialog = DeleteConfirmDialog.newInstance(row_id, date, category, value);
-//        dialog.show(getFragmentManager(), DeleteConfirmDialog.TAG);
-//        return true;
-//    }
-//    // ============================================================================
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        final String[] columns = {DB.ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
-        final String selection = DB.DATE + " = " + DB.DATE + " GROUP BY (" + DB.DATE + ")"; // hack: GROUP BY
-        return new DataLoader(getActivity(), DB.EXPENSES_VIEW, columns, selection, DB.TIMESTAMP + " DESC");
+        getLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
     }
     // ============================================================================
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mAdapter.setGroupCursor(data);
+    public void onChildClick(ExpensesDetail item) {
+        DeleteConfirmDialog dialog = DeleteConfirmDialog.newInstance(item.getId(), item.getDate(), item.getCategory(), item.getValue());
+        dialog.show(getFragmentManager(), DeleteConfirmDialog.TAG);
+    }
+    // ============================================================================
 
-        if (mAdapter.getGroupCount() == 0) {
+    @Override
+    public Loader<List<ExpensesGroup>> onCreateLoader(int id, Bundle args) {
+        return new GroupLoader(getActivity());
+    }
+    // ============================================================================
+
+    @Override
+    public void onLoadFinished(Loader<List<ExpensesGroup>> loader, List<ExpensesGroup> data) {
+        mAdapter = new ExpensesAdapter(data, this);
+        recyclerView.setAdapter(mAdapter);
+
+        if (mAdapter.getItemCount() == 0) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         } else {
@@ -143,28 +134,36 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
     // ============================================================================
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mAdapter.setGroupCursor(null);
+    public void onLoaderReset(Loader<List<ExpensesGroup>> loader) {
+        mAdapter = null;
     }
     // ============================================================================
 
-    static class DataLoader extends AsyncTaskLoader<Cursor> {
-        private final String table;
-        private final String[] columns;
-        private final String selection;
-        private final String order;
+    static class GroupLoader extends AsyncTaskLoader<List<ExpensesGroup>> {
+        final String table = DB.EXPENSES_VIEW;
+        final String[] columns = {DB.ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
+        final String selection = DB.DATE + " = " + DB.DATE + " GROUP BY (" + DB.DATE + ")"; // hack: GROUP BY
+        final String order = DB.TIMESTAMP + " DESC";
 
-        public DataLoader(Context context, String table, String[] columns, String selection, String order) {
+        public GroupLoader(Context context) {
             super(context);
-            this.table = table;
-            this.columns = columns;
-            this.selection = selection;
-            this.order = order;
         }
 
         @Override
-        public Cursor loadInBackground() {
-            return DB.INSTANCE.getReadableDatabase().query(table, columns, selection, null, null, null, order);
+        public List<ExpensesGroup> loadInBackground() {
+            List<ExpensesGroup> result = new ArrayList<>();
+            Cursor cursor = DB.INSTANCE.getReadableDatabase().query(table, columns, selection, null, null, null, order);
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    ExpensesGroup item = new ExpensesGroup(
+                            cursor.getString(cursor.getColumnIndex(DB.DATE)),
+                            cursor.getLong(cursor.getColumnIndex(DB.VALUE))
+                    );
+                    result.add(item);
+                }
+                cursor.close();
+            }
+            return result;
         }
     }
 }

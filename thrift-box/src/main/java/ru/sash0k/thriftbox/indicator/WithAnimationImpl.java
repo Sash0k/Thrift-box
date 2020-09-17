@@ -1,4 +1,4 @@
-package de.nenick.expandablerecyclerview.indicator;
+package ru.sash0k.thriftbox.indicator;
 
 import android.annotation.TargetApi;
 import android.content.Context;
