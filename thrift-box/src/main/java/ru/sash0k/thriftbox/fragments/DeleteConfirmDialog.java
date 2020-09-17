@@ -5,7 +5,6 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 
 import ru.sash0k.thriftbox.ActivityHelper;
 import ru.sash0k.thriftbox.R;
@@ -23,7 +22,7 @@ public class DeleteConfirmDialog extends DialogFragment {
     public static DeleteConfirmDialog newInstance(int id, String date, int category, long value) {
         DeleteConfirmDialog f = new DeleteConfirmDialog();
         Bundle arguments = new Bundle();
-        arguments.putInt(BaseColumns._ID, id);
+        arguments.putInt(DB.ID, id);
         arguments.putString(DB.DATE, date);
         arguments.putInt(DB.CATEGORY, category);
         arguments.putLong(DB.VALUE, value);
@@ -38,7 +37,7 @@ public class DeleteConfirmDialog extends DialogFragment {
         String[] categories = context.getResources().getStringArray(R.array.categories);
 
         final Bundle args = getArguments();
-        final int id = args.getInt(BaseColumns._ID);
+        final int id = args.getInt(DB.ID);
         final String date = args.getString(DB.DATE);
         final int category = args.getInt(DB.CATEGORY);
         final String value = Utils.formatValue(args.getLong(DB.VALUE)) + Utils.ROUBLE + "?";

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -108,7 +107,7 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
 //    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 //        super.onChildClick(parent, v, groupPosition, childPosition, id);
 //        Cursor cursor = ((AdapterExpenses) getListAdapter()).getChild(groupPosition, childPosition);
-//        final int row_id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
+//        final int row_id = cursor.getInt(cursor.getColumnIndex(DB.ID));
 //        final String date = cursor.getString(cursor.getColumnIndex(DB.DATE));
 //        final int category = cursor.getInt(cursor.getColumnIndex(DB.CATEGORY));
 //        final long value = cursor.getLong(cursor.getColumnIndex(DB.VALUE));
@@ -123,7 +122,7 @@ public class ExpensesFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        final String[] columns = {BaseColumns._ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
+        final String[] columns = {DB.ID, "SUM(" + DB.VALUE + ") AS " + DB.VALUE, DB.DATE};
         final String selection = DB.DATE + " = " + DB.DATE + " GROUP BY (" + DB.DATE + ")"; // hack: GROUP BY
         return new DataLoader(getActivity(), DB.EXPENSES_VIEW, columns, selection, DB.TIMESTAMP + " DESC");
     }

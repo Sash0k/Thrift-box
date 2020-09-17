@@ -17,6 +17,7 @@ object DB : SQLiteOpenHelper(App.instance, "thriftbox.db", null, 3) {
     const val STATISTICS_VIEW = "statistics_view"
 
     // поля
+    const val ID = BaseColumns._ID
     const val VALUE = "value"
     const val CATEGORY = "category"
     const val COMMENT = "comment"
@@ -25,14 +26,14 @@ object DB : SQLiteOpenHelper(App.instance, "thriftbox.db", null, 3) {
 
     override fun onCreate(db: SQLiteDatabase) {
         val doExpensesTable = ("CREATE TABLE IF NOT EXISTS $EXPENSES_TABLE" +
-                " ([" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT," +
+                " ([$ID] INTEGER PRIMARY KEY AUTOINCREMENT," +
                 " [$VALUE] INTEGER NOT NULL," +
                 " [$CATEGORY] INTEGER NOT NULL DEFAULT(0)," +
                 " [$COMMENT] TEXT," +
                 " [$TIMESTAMP] INTEGER NOT NULL DEFAULT(strftime('%s','now')));")
 
-        val doExpensesView = ("CREATE VIEW IF NOT EXISTS $EXPENSES_VIEW AS SELECT " +
-                BaseColumns._ID + ", $VALUE, $CATEGORY, $COMMENT, $TIMESTAMP," +
+        val doExpensesView = ("CREATE VIEW IF NOT EXISTS $EXPENSES_VIEW AS" +
+                " SELECT $ID, $VALUE, $CATEGORY, $COMMENT, $TIMESTAMP," +
                 " strftime('%d.%m.%Y', $TIMESTAMP, 'unixepoch', 'localtime') AS $DATE" +
                 " FROM $EXPENSES_TABLE")
 
@@ -51,7 +52,7 @@ object DB : SQLiteOpenHelper(App.instance, "thriftbox.db", null, 3) {
 
         val doDeleteTrigger = ("CREATE TRIGGER IF NOT EXISTS delete_expenses" +
                 " instead of delete on $EXPENSES_VIEW" +
-                " BEGIN DELETE from $EXPENSES_TABLE WHERE " + BaseColumns._ID + " = OLD." + BaseColumns._ID + ";" +
+                " BEGIN DELETE from $EXPENSES_TABLE WHERE $ID = OLD.$ID;" +
                 " END;")
 
         db.execSQL(doExpensesTable)
@@ -98,7 +99,7 @@ object DB : SQLiteOpenHelper(App.instance, "thriftbox.db", null, 3) {
      * Удалить запись из таблицы
      */
     fun deleteItem(id: Int) : Int {
-        return writableDatabase.delete(EXPENSES_VIEW, "${BaseColumns._ID}=?", arrayOf(id.toString()))
+        return writableDatabase.delete(EXPENSES_VIEW, "$ID=?", arrayOf(id.toString()))
     }
 
     /**
