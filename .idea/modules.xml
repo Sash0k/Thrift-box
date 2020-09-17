@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Thrift-box.iml" filepath="$PROJECT_DIR$/Thrift-box.iml" />
-      <module fileurl="file://$PROJECT_DIR$/thrift-box/thrift-box.iml" filepath="$PROJECT_DIR$/thrift-box/thrift-box.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Thrift-box.iml" filepath="$PROJECT_DIR$/Thrift-box.iml" group="Thrift-box" />
+      <module fileurl="file://$PROJECT_DIR$/thrift-box/thrift-box.iml" filepath="$PROJECT_DIR$/thrift-box/thrift-box.iml" group="Thrift-box/thrift-box" />
     </modules>
   </component>
 </project>
-

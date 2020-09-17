@@ -3,8 +3,10 @@ package ru.sash0k.thriftbox;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.support.v13.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+
+import androidx.legacy.app.FragmentPagerAdapter;
+import androidx.legacy.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -147,7 +149,7 @@ public class MainActivity extends ActivityHelper {
     // ============================================================================
 
     /**
-     * A {@link android.support.v13.app.FragmentPagerAdapter} that returns a fragment corresponding to
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
